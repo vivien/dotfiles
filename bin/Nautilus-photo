@@ -1,0 +1,187 @@
+#!/bin/bash
+
+#TODO: ameliorer l'interpretation du choix pour l'importation
+
+##### CONFIGURATION #####
+
+IMPORT_SCRIPT=~/scripts/photo-import
+DATE_SCRIPT=~/scripts/photo-date
+
+# take a look to the library configuration
+# at the top of file pointed by $IMPORT_SCRIPT
+
+##### END OF CONFIGURATION #####
+
+# treat single file or directory (also the first selected)
+ARG="$(echo "$NAUTILUS_SCRIPT_SELECTED_FILE_PATHS" | sed -n '1p')"
+ARG_NAME="$(basename "$ARG")"
+ZENITY_OUT="zenity --text-info --width=600 --height=400"
+RECURSIVE=false
+
+if [ -z "$ARG" ] ; then
+	zenity --error --title="$(basename $IMPORT_SCRIPT)" --text="Aucune cible."
+	exit $ERR
+fi
+
+# check dependences
+if [ -z "$(which $DATE_SCRIPT)" ] ; then
+	zenity --error --title="$(basename $DATE_SCRIPT)" --text="\`$DATE_SCRIPT' introuvable."
+	exit $ERR
+elif [ -z "$(which $IMPORT_SCRIPT)" ] ; then
+	zenity --error --title="$(basename $IMPORT_SCRIPT)" --text="\`$IMPORT_SCRIPT' introuvable."
+	exit $ERR
+fi
+
+#####################
+##### FUNCTIONS #####
+#####################
+
+function ExitOnCancel
+{
+	if [ $? -eq 1 ] ; then
+		zenity --warning --title="$(basename $DATE_SCRIPT)" --text="Abandon." --width="200"
+		exit 0
+	fi
+}
+
+function GetHours {
+	HOURS=$(zenity --scale --title="$ARG_NAME" --text="Entrer les heures :" --min-value=-100)
+	ExitOnCancel
+	if [ $HOURS -lt 0 ] ; then
+		[ $HOURS -gt -10 ] && HOURS=${HOURS/-/-0}
+	else
+		[ $HOURS -lt 10 ] && HOURS=0$HOURS
+		HOURS=+$HOURS
+	fi
+}
+
+function GetDate {
+	DATE=$(zenity --calendar --title="$ARG_NAME" --text="Choisir la date :" --date-format="%Y:%m:%d")
+	ExitOnCancel
+}
+
+function GetTime {
+	HOURS=$(zenity --scale --title="$ARG_NAME" --text="Entrer les heures :" --min-value="0" --max-value="23")
+	ExitOnCancel
+	[ $HOURS -lt 10 ] && HOURS=0$HOURS
+	MINUTES=$(zenity --scale --title="$ARG_NAME" --text="Entrer les minutes :" --min-value="0" --max-value="59")
+	ExitOnCancel
+	[ $MINUTES -lt 10 ] && MINUTES=0$MINUTES
+	SECONDES=$(zenity --scale --title="$ARG_NAME" --text="Entrer les secondes :" --min-value="0" --max-value="59")
+	ExitOnCancel
+	[ $SECONDES -lt 10 ] && SECONDES=0$SECONDES
+
+	TIME=$HOURS:$MINUTES:$SECONDES
+}
+
+function Confirmation {
+	zenity --question --title="Confirmation" --text="$1
+Etes-vous sur ?"
+	ExitOnCancel
+}
+
+function DoRecursion {
+	$RECURSIVE && echo "--recursive"
+}
+
+function Check {
+	$DATE_SCRIPT --check $(DoRecursion) "$ARG" 2>&1 | sed \
+	-e '/^ *$/d' \
+	-e '/\(^[^file:]\|WARNING\)/{G;G;}' \
+	-e 's/file: //' \
+	-e 's/\([ ]*date: \| time: \)/\n/g' \
+	-e 's/  [ ]*/ : /' \
+	| zenity --list --title="Check $ARG_NAME" --column="Fichier" --column="Date" --column="Heure" --text="Informations sur <b>$ARG_NAME</b> :
+<i>Des champs date et heure vides indiquent une erreur.</i>" --height=600 --width=800
+	ExitOnCancel
+}
+
+function Import {
+	OPTIONS=$(zenity --list --checklist --title="Import de $ARG_NAME" --text="Importation de <b>$ARG_NAME</b>.
+Le mode recursif permet de traiter egalement les sous-dossiers.
+Le catalogue est un dossier contenant un lien vers toutes les photos (utile pour un évènement donné)
+et est obligatoire lorsqu'il y a des fichiers qui ne sont pas des photos." \
+	--column="" --column="" --column="Option" --column="Description" --hide-column="2" --print-column="2" --separator=" " \
+	FALSE 1 "Catalogue" "Creer un catalogue" \
+	$RECURSIVE 2 "Recursif" "Appliquer le script a tous les sous-dossiers")
+	ExitOnCancel
+
+	CATALOG=
+	if [ ! -z "$(echo "$OPTIONS" | grep 1)" ] ; then
+		CATALOGS_PATH=$($IMPORT_SCRIPT --help | grep 'catalogs path' | awk '{print $3}')
+		CATALOGS_LIST=
+		[ -e $CATALOGS_PATH ] && CATALOGS_LIST=$(ls $CATALOGS_PATH)
+		CATALOG="$(zenity --entry --title="$(basename $IMPORT_SCRIPT)" --text="Entrer un nom pour le catalogue :" --entry-text="$ARG_NAME" $CATALOGS_LIST)"
+		ExitOnCancel
+	fi
+	if [ ! -z "$(echo "$OPTIONS" | grep 2)" ] ; then
+		RECURSIVE=true
+	else
+		RECURSIVE=false
+	fi
+
+	$IMPORT_SCRIPT $(DoRecursion) $([ ! -z "$CATALOG" ] && echo "--catalog=${CATALOG// /_}") "$ARG" 2>&1 | $ZENITY_OUT --title="Import de $ARG_NAME"
+}
+
+function Menu {
+	CHOICE=$(zenity --list --title="$ARG_NAME" --text="Quelle action appliquer sur <b>$ARG_NAME</b> ?" \
+	--column="" --column="Action" --hide-column="1" --print-column="1" \
+	1 "Ajuster l'heure" \
+	2 "Definir date et heure" \
+	3 "Modifier seulement la date" \
+	4 "Importer dans la librairie" \
+	5 "Quitter" \
+	--width=400 --height=250)
+	ExitOnCancel
+
+	case $CHOICE in
+		1)
+			GetHours
+			Confirmation "Ajuster de <b>$HOURS</b> heures."
+			$DATE_SCRIPT $(DoRecursion) ta$HOURS "$ARG" 2>&1 | $ZENITY_OUT --title="$ARG_NAME"
+			Check
+			Menu
+			;;
+		2)
+			GetDate
+			GetTime
+			Confirmation "Date: <b>$DATE</b> Time: <b>$TIME</b>"
+			$DATE_SCRIPT $(DoRecursion) ts$DATE-$TIME "$ARG" 2>&1 | $ZENITY_OUT --title="$ARG_NAME"
+			Check
+			Menu
+			;;
+		3)
+			GetDate
+			Confirmation "Date: <b>$DATE</b>"
+			$DATE_SCRIPT $(DoRecursion) ds$DATE "$ARG" 2>&1 | $ZENITY_OUT --title="$ARG_NAME"
+			Check
+			Menu
+			;;
+		4)
+			Import
+			;;
+		5)
+			;;
+	esac
+}
+
+###################
+##### PROGRAM #####
+###################
+
+if [ -d "$ARG" ] ; then
+	if [ ! -z "$(file -Lb "$ARG"/* | grep 'directory')" ] ; then
+		CHOICE=$(zenity --list --title="Recursion" --text="Il y a des sous-dossiers dans <b>$ARG_NAME</b>,
+appliquer le mode recursif (les actions seront appliquees aux sous-dossiers) ?" \
+		--column="" --column="" --hide-column="1" --print-column="1" \
+		1 "Oui" \
+		2 "Non")
+		ExitOnCancel
+		[ $CHOICE -eq 1 ] && RECURSIVE=true
+	fi
+fi
+
+Check
+Menu
+
+exit 0

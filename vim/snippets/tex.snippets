@@ -1,0 +1,136 @@
+# \begin{}...\end{}
+snippet begin
+	\begin{${1:env}}
+		${2}
+	\end{$1}
+# Tabular
+snippet tab
+	\begin{${1:tabular}}{${2:c}}
+	${3}
+	\end{$1}
+# Align(ed)
+snippet ali
+	\begin{align${1:ed}}
+		${2}
+	\end{align$1}
+# Gather(ed)
+snippet gat
+	\begin{gather${1:ed}}
+		${2}
+	\end{gather$1}
+# Equation
+snippet eq
+	\begin{equation}
+		${1}
+	\end{equation}
+# Unnumbered Equation
+snippet \
+	\\[
+		${1}
+	\\]
+	${2}
+# Enumerate
+snippet enum
+	\begin{enumerate}
+		\item ${1}
+	\end{enumerate}
+# Itemize
+snippet item
+	\begin{itemize}
+		\item ${1}
+	\end{itemize}
+# Description
+snippet desc
+	\begin{description}
+		\item[${1}] ${2}
+	\end{description}
+# Matrix
+snippet mat
+	\begin{${1:p/b/v/V/B/small}matrix}
+		${2}
+	\end{$1matrix}
+# Cases
+snippet cas
+	\begin{cases}
+		${1:equation}, &\text{ if }${2:case}\\
+		${3}
+	\end{cases}
+# Split
+snippet spl
+	\begin{split}
+		${1}
+	\end{split}
+# Part
+snippet part
+	\part{${1:part}}
+
+	${2}
+	% part $1 (end)
+# Chapter
+snippet chap
+	\chapter{${1:chapter}}
+
+	${2}
+	% chapter $1 (end)
+# Section
+snippet sec
+	\section{${1:section}}
+
+	${2}
+	% section $1 (end)
+# Sub Section
+snippet sub
+	\subsection{${1:subsection}}
+
+	${2}
+# Sub Sub Section
+snippet subsub
+	\subsubsection{${1:subsubsection}}
+
+	${2}
+	% subsubsection $1 (end)
+# Paragraph
+snippet par
+	\paragraph{${1}}
+	${2}
+# Sub Paragraph
+snippet subp
+	\subparagraph{${1}}
+	${2}
+snippet it
+	\item ${1}
+snippet itd
+	\item[${1:description}] ${2:item}
+snippet figure
+	${1:Figure}~\ref{${2:fig:}}${3}
+snippet table
+	${1:Table}~\ref{${2:tab:}}${3}
+snippet listing
+	${1:Listing}~\ref{${2:list}}${3}
+snippet section
+	${1:Section}~\ref{${2:sec:}}${3}
+snippet page
+	${1:page}~\pageref{${2}}${3}
+# Text
+snippet emph
+	\emph{${1}}${2}
+snippet bf
+	\textbf{${1}}${2}
+snippet sc
+	\textsc{${1}}${2}
+snippet sf
+	\textsf{${1}}${2}
+# Complexity
+snippet O
+	$\Theta(${1})$${2}
+# Math
+snippet sum
+	\sum_{${1}}^{${2}} ${3}
+snippet lst
+	\lstinputlisting[caption={${2}}, label=lst:${3:$1}]{${1:file}}${4}
+snippet pgcd
+	\pgcd(${1:a}, ${2:b})${3}
+snippet frac
+	\frac{${1}}{${2}}${3}
+snippet todo
+	\todo{${1}}${2}

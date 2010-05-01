@@ -1,0 +1,32 @@
+#!/bin/bash
+
+set -e
+
+[ ! -e .git ] || [ ! -d .git ] && {
+	echo "fatal: Not a git repository" >&2
+	exit 65
+}
+
+[ ! -e .gitignore ] && {
+	echo "create .gitignore..."
+	touch .gitignore
+}
+
+[ $# -eq 0 ] && {
+	echo "which file do you want to ignore?" >&2
+	exit 65
+}
+
+for i in $@
+do
+	[ ! -e $i ] && echo "error: can't find \`$i'." >&2
+	if [ -n "$(grep -E "^$i\$" .gitignore)" ]
+	then
+		echo "info: \`$i' already ignored."
+	else
+		echo "$i" >> .gitignore
+	fi
+done
+
+exit 0
+	

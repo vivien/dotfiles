@@ -1,0 +1,3 @@
+git clone git://redbox.homelinux.com/dotfiles.git ~/.dotfiles
+cd ~/.dotfiles
+bash install.sh

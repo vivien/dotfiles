@@ -1,0 +1,6 @@
+# do not bell on tab-completion
+set bell-style none
+
+# Show all if ambigious.
+set show-all-if-ambiguous on
+

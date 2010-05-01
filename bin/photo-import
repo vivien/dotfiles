@@ -1,0 +1,223 @@
+#!/bin/bash
+
+# this script imports single pic or pics and other files (such as videos, etc) from the directory given in parameter to your library (defined below).
+# it may create a catalog containing other files and symbolic links to every pics imported (catalog is necessary for non pic files).
+# it may be used recursively (the script will be executed for every subdirectories with the same catalog (if any).
+# Vivien DIDELOT a.k.a v0n
+
+# PARAMETERS
+# [OPTIONS] SOURCE
+#
+# OPTIONS
+# -h, --help
+#	prints help
+# -V, --version
+#	prints version
+# -c 'LABEL', --catalog='LABEL'
+#	creates a catalog named LABEL (useful for events)
+#	necessary for non pic files
+# -r, --recursive
+#	uses this script recursively
+
+##### CONFIGURATION #####
+
+LIBRARY_PATH=$HOME/Photos
+CATALOGS_PATH=$LIBRARY_PATH/catalogues
+UNDATED_PATH=$LIBRARY_PATH/undated
+
+FILENAME_FORMAT="%Y%m%d_%H%M%S" # see jhead documentation
+
+##### CHANGE NOTHING BELOW THIS LINE #####
+
+DO_CATALOG=false
+RECURSIVE=false
+JPG_EXT="*jpg$|*JPG$|*jpeg$|*JPEG$"
+
+SCRIPT=$(basename $0)
+ERROR=65
+VERSION=1.1
+
+#set -e
+
+# check dependences
+if [ -z "$(which jhead)" ] ; then
+	echo "missing \`jhead' package." >&2
+	exit $ERROR
+fi
+
+##### FUNCTIONS #####
+
+# usage of the script
+function PrintUsage
+{
+	echo "USAGE:"
+	echo "$SCRIPT [-h|--help] [-V|--version] [-c LABEL|--catalog=LABEL] [-r|--recursive] DIRECTORY|FILE"
+}
+
+##### CHECK PARAMETERS #####
+
+while getopts "hVc:r-:" OPTION
+do
+	# check long options
+	[ $OPTION = "-" ] && case "${OPTARG%%=*}" in
+		help) OPTION="h" ;;
+		version) OPTION="V" ;;
+		catalog) OPTION="c" ; OPTARG="${OPTARG#*=}" ;;
+		recursive) OPTION="r" ;;
+		*) echo "option longue non permise -- ${OPTARG%%=*}" >&2 ; exit $ERROR ;;
+	esac
+	case $OPTION in
+		h)
+			PrintUsage
+			echo
+			echo "VALUES:"
+			printf "%-24s%s\n" "library:" "$LIBRARY_PATH"
+			printf "%-24s%s\n" "catalogs path:" "$CATALOGS_PATH"
+			printf "%-24s%s\n" "undated files path:" "$UNDATED_PATH"
+			echo
+			echo "edit top of $0 to change values."
+			exit 0 ;;
+		V)
+			echo "$SCRIPT: version $VERSION."
+			exit 0 ;;
+		c)
+			DO_CATALOG=true
+			LABEL="$OPTARG"
+			CATALOG=$(echo "$LABEL" \
+			| sed 'y/ÁÀÂÄÃáàâäãÉÈÊËẼéèêëẽÍÌÎÏĨíìîïĩÓÒÔÖÕóòôöõÚÙÛÜŨúùûüũÝỲŶŸỸýỳŷÿỹŃǸÑńǹñ/AAAAAaaaaaEEEEEeeeeeIIIIIiiiiiOOOOOoooooUUUUUuuuuuYYYYYyyyyyNNNnnn/' \
+			| tr "[A-Z' ]" "[a-z__]" \
+			| tr -d '!?~"=()[]{}$^:;,<>' \
+			| tr -s '_' \
+			| sed 's/^_\|_$//g') ;;
+		r)
+			RECURSIVE=true ;;
+		*) 
+			echo "$SCRIPT: unknow option." >&2
+			PrintUsage
+			exit $ERROR ;;
+	esac
+done
+
+shift $((OPTIND - 1))
+
+if [ $# -ne 1 ] ; then
+	echo "$SCRIPT: bad syntax." >&2
+	PrintUsage
+	exit $ERROR
+else
+	SOURCE="$1"
+	if [ ! -e "$SOURCE" ] ; then
+		echo "$SCRIPT: source \`$SOURCE' unreachable." >&2
+		exit $ERROR
+	else
+		SOURCE="${1%/}"
+		[ "${SOURCE:0:1}" != "/" ] && SOURCE="$(pwd)/$SOURCE"
+	fi
+fi
+
+if [ -d "$SOURCE" ] ; then
+	if ! $RECURSIVE ; then
+		if ! $DO_CATALOG && [ ! -z "$(file -Lb "$SOURCE"/* | grep -Ev 'directory|JPEG image')" ] ; then
+			echo "$SCRIPT: catalog needed to store non pic files." >&2
+			exit $ERROR
+		fi
+	else
+		if ! $DO_CATALOG && [ ! -z "$(ls -1LR --file-type "$SOURCE" | grep -Ev "^($SOURCE.*:|.*/|)$|$JPG_EXT")" ] ; then
+			echo "$SCRIPT: catalog needed to store non pic files." >&2
+			exit $ERROR
+		fi
+	fi
+else
+	if ! $DO_CATALOG && [ ! -z "$(file -b "$SOURCE" | grep -Ev 'JPEG image')" ] ; then
+		echo "$SCRIPT: catalog needed to store non pic files." >&2
+		exit $ERROR
+	fi
+fi
+
+##### PROGRAM #####
+
+[ -d $LIBRARY_PATH ] || mkdir -vp $LIBRARY_PATH
+
+TMPDIR=$(mktemp -dt $SCRIPT.XXXXXXXXXX)
+echo "$SCRIPT: copying \`$(basename "$SOURCE")' to temp dir \`$TMPDIR'..."
+if [ -d "$SOURCE" ] ; then
+	for thisFILE in "$SOURCE"/* ; do
+		if [ -d "$thisFILE" ] ; then
+			ln -s "$thisFILE" $TMPDIR
+		else
+			cp "$thisFILE" $TMPDIR
+		fi
+	done
+else
+	cp "$SOURCE" $TMPDIR
+fi
+
+cd $TMPDIR
+
+echo "$SCRIPT: renaming files..."
+rename 's/Á|À|Â|Ä|Ã|á|à|â|ä|ã/a/g' *
+rename 's/É|È|Ê|Ë|Ẽ|é|è|ê|ë|ẽ/e/g' *
+rename 's/Í|Ì|Î|Ï|Ĩ|í|ì|î|ï|ĩ/i/g' *
+rename 's/Ó|Ò|Ô|Ö|Õ|ó|ò|ô|ö|õ/o/g' *
+rename 's/Ú|Ù|Û|Ü|Ũ|ú|ù|û|ü|ũ/u/g' *
+rename 's/Ý|Ỳ|Ŷ|Ÿ|Ỹ|ý|ỳ|ŷ|ÿ|ỹ/y/g' *
+rename 's/Ń|Ǹ|Ñ|ń|ǹ|ñ/n/g' *
+rename 'y/A-Z/a-z/' *                            # lowercase
+rename "y/ \"\'\!\?\=\(\)\[\]\{\}\$\^:;,<>/_/" * # replace special char to _
+rename 's/__*/_/g' *                             # remove redondente _
+rename 's/^_*|_*$//g' *                          # remove begining and ending _
+
+$DO_CATALOG && mkdir -vp $CATALOGS_PATH/$CATALOG
+IS_FOLDER=false
+NB_PIC=0
+NB_FOLDER=0
+NB_NON_PIC=0
+
+echo "$SCRIPT: treatment of each files..."
+for thisFILE in * ; do
+	if [ "$(file -b $thisFILE | grep 'JPEG image')" ] ; then
+		# treatment of pics
+		NB_PIC=$((NB_PIC + 1))
+		DATE=$(jhead $thisFILE | grep "Date/Time" | awk '{print $3}') # gets exif timestamp
+		if [ -z "$DATE" ] ; then
+			echo "INFO: no exif timestamp for \`$thisFILE' --> moved to \`$UNDATED_PATH'." >&2
+			thisFILE_PATH=$UNDATED_PATH
+		else
+			thisFILE=$(jhead -q -se -nf$FILENAME_FORMAT $thisFILE | awk '{print $3}') # rename and keep new name
+			jhead -q -se -ft $thisFILE # sets the file's system time stamp to the exif timestamp
+
+			YYYY=$(echo $DATE | cut -d: -f1)
+			MM=$(echo $DATE | cut -d: -f2)
+			DD=$(echo $DATE | cut -d: -f3)
+
+			thisFILE_PATH="$YYYY/$MM/$DD"
+			# links pics according to the hierarchy
+			$DO_CATALOG && [ ! -e $CATALOGS_PATH/$CATALOG/$thisFILE ] && ln -s ../../$thisFILE_PATH/$thisFILE $CATALOGS_PATH/$CATALOG 
+			thisFILE_PATH=$LIBRARY_PATH/$thisFILE_PATH
+		fi
+	elif [ "$(file -Lb $thisFILE)" = "directory" ] ; then
+		# treatment of subdirectories
+		IS_FOLDER=true
+		if $RECURSIVE ; then
+			NB_FOLDER=$((NB_FOLDER + 1))
+			$0 --recursive $($DO_CATALOG && echo "--catalog=\"$CATALOG\"") $thisFILE
+		else
+			echo "INFO: \`$thisFILE' is a folder, not processed (use recursive mode if needed)." >&2 
+		fi
+	else
+		# treatment of non pic files
+		NB_NON_PIC=$((NB_NON_PIC + 1))
+		thisFILE_PATH=$CATALOGS_PATH/$CATALOG
+	fi
+
+	if ! $IS_FOLDER ; then
+		[ -d $thisFILE_PATH ] || mkdir -p $thisFILE_PATH
+		cp $thisFILE $thisFILE_PATH/
+	else
+		IS_FOLDER=false
+	fi
+done
+
+echo "$SCRIPT: END >> \`$(basename "$SOURCE")' done ($NB_PIC pics, $NB_FOLDER folders and $NB_NON_PIC other processed)."
+
+exit 0

@@ -1,0 +1,10 @@
+#!/bin/bash
+
+set -e
+
+palm-install -r com.lymphox.palm.memogame
+palm-package MemoGame
+palm-install com.lymphox.palm.memogame_1.0.0_all.ipk
+palm-launch com.lymphox.palm.memogame
+
+exit 0

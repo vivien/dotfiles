@@ -1,0 +1,19 @@
+#!/bin/bash
+# used to fix a bug happened in my library :
+# some sym links were replace by a copy of pointed file
+
+CATALOG_PATH=~/Photos/catalogues
+set -e
+
+cd $CATALOG_PATH
+
+for thisFILE in */* ; do
+	if [ "$(file -b $thisFILE | grep "JPEG image data")" ] ; then
+		rm -vi $thisFILE
+		DATE=$(basename $thisFILE | cut -d_ -f1)
+		Y=${DATE:0:4}
+		M=${DATE:4:2}
+		D=${DATE:6}
+		ln -s -v ../../$Y/$M/$D/$(basename $thisFILE) $thisFILE
+	fi
+done
