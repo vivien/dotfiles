@@ -49,14 +49,14 @@ for FILE in * ; do
             fi
             ;;
         bin)
-            #TODO ask for every files in bin instead of the whole dir
-            LINK=$HOME/bin
+            LINK=$HOME/$FILE
             Ask $LINK
             if $GO ; then
-                pushd bin
+                test -d $LINK || mkdir $LINK
+                pushd $FILE
                 for BIN in * ; do
                     SRC=`pwd`/$BIN
-                    LINK=$HOME/bin/$BIN
+                    LINK=$HOME/$FILE/$BIN
                     Ask $LINK
                     $GO && ln -svf $SRC $LINK
                 done

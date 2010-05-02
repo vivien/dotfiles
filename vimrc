@@ -27,6 +27,8 @@ au BufReadPost * exe "normal! g`\""
 " Remap
 noremap j gj
 noremap k gk
+" remap tag command
+noremap T 
 
 " Indentation, Tabs and Spaces. I use 4 spaces indentation
 filetype on
@@ -45,7 +47,10 @@ au BufWinEnter * let w:m3=matchadd('Space', '\s\+$\| \+\ze\t', -1)
 set list listchars=tab:»·,trail:·
 
 " Show when a line exceeds 80 chars
-"au BufWinEnter * let w:m1=matchadd('ErrorMsg', '\%>80v.\+', -1) " highlight lines longer than 80 chars
+au BufWinEnter * let w:m1=matchadd('ErrorMsg', '\%>80v.\+', -1) " highlight lines longer than 80 chars
+
+" Special highlighting for Doxygen
+let g:load_doxygen_syntax=1
 
 " Advanced options
 "set shm=atI                " Disable intro screen
