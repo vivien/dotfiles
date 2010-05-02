@@ -44,7 +44,7 @@ for FILE in * ; do
             LINK=$HOME/.config/terminator/config
             Ask $LINK
             if $GO ; then
-                test -d `dirname $LINK` || mkdir `dirname $LINK`
+                test -d `dirname $LINK` || mkdir -p `dirname $LINK`
                 $GO && ln -svf $SRC $LINK
             fi
             ;;
