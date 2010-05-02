@@ -53,14 +53,14 @@ for FILE in * ; do
             Ask $LINK
             if $GO ; then
                 test -d $LINK || mkdir $LINK
-                pushd $FILE
+                pushd $FILE > /dev/null
                 for BIN in * ; do
                     SRC=`pwd`/$BIN
                     LINK=$HOME/$FILE/$BIN
                     Ask $LINK
                     $GO && ln -svf $SRC $LINK
                 done
-                popd
+                popd > /dev/null
             fi
             ;;
         *)

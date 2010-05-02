@@ -29,6 +29,8 @@ noremap j gj
 noremap k gk
 " remap tag command
 noremap T 
+" map F5 to remove trailing spaces
+"nnoremap <silent> <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
 
 " Indentation, Tabs and Spaces. I use 4 spaces indentation
 filetype on
