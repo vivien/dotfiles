@@ -45,7 +45,7 @@ for FILE in * ; do
             Ask $LINK
             if $GO ; then
                 test -d `dirname $LINK` || mkdir -p `dirname $LINK`
-                $GO && ln -svf $SRC $LINK
+                $GO && ln -snvf $SRC $LINK
             fi
             ;;
         bin)
@@ -58,14 +58,14 @@ for FILE in * ; do
                     SRC=`pwd`/$BIN
                     LINK=$HOME/$FILE/$BIN
                     Ask $LINK
-                    $GO && ln -svf $SRC $LINK
+                    $GO && ln -snvf $SRC $LINK
                 done
                 popd > /dev/null
             fi
             ;;
         *)
             Ask $LINK
-            $GO && ln -svf $SRC $LINK
+            $GO && ln -snvf $SRC $LINK
             ;;
     esac
 done
