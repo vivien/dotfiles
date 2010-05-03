@@ -3,32 +3,41 @@
 # author: Vivien Didelot aka v0n
 
 REPLACE_ALL=false
-GO=false
 
-function Ask {
-    GO=true
-    if test -e $1 ; then
-        if ! $REPLACE_ALL ; then
-            read -p "overwrite $1 [Y/n/a] ? " QUESTION
+function Overwrite {
+    rm -rf $2
+    ln -sv $1 $2
+}
+
+function Deploy {
+    if test -e $2 ; then
+        if $REPLACE_ALL ; then
+            Overwrite $1 $2
+        else
+            read -p "overwrite $2? [Y/n/a] " QUESTION
             case $QUESTION in
-                Y|y|'')
+                'Y'|'y')
+                    Overwrite $1 $2
                     ;;
                 a)
                     REPLACE_ALL=true
+                    Overwrite $1 $2
                     ;;
                 *)
-                    GO=false
-                    echo "skip $1" ;;
+                    echo "skip $2"
+                    ;;
             esac
         fi
     else
-        read -p "create $1 [Y/n] ? " QUESTION
+        read -p "create $2? [Y/n] " QUESTION
         case $QUESTION in
-            Y|y|'')
+            'Y'|'y')
+                test -d `dirname $2` || mkdir -p `dirname $2`
+                ln -sv $1 $2
                 ;;
             *)
-                GO=false
-                echo "skip $1" ;;
+                echo "skip $2"
+                ;;
         esac
     fi
 }
@@ -42,30 +51,16 @@ for FILE in * ; do
             ;; # ignore
         terminator.config)
             LINK=$HOME/.config/terminator/config
-            Ask $LINK
-            if $GO ; then
-                test -d `dirname $LINK` || mkdir -p `dirname $LINK`
-                $GO && ln -snvf $SRC $LINK
-            fi
+            Deploy $SRC $LINK
             ;;
         bin)
             LINK=$HOME/$FILE
-            Ask $LINK
-            if $GO ; then
-                test -d $LINK || mkdir $LINK
-                pushd $FILE > /dev/null
-                for BIN in * ; do
-                    SRC=`pwd`/$BIN
-                    LINK=$HOME/$FILE/$BIN
-                    Ask $LINK
-                    $GO && ln -snvf $SRC $LINK
-                done
-                popd > /dev/null
-            fi
+            Deploy $SRC $LINK
             ;;
         *)
-            Ask $LINK
-            $GO && ln -snvf $SRC $LINK
+            Deploy $SRC $LINK
             ;;
     esac
 done
+
+exit
