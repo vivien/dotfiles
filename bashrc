@@ -99,3 +99,10 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
 fi
 
 todo
+
+echo
+
+pushd ~/.dotfiles > /dev/null
+git status
+popd > /dev/null
+
