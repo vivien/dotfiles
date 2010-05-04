@@ -67,7 +67,7 @@ fi
 
 # get an ip from UNIVMED 
 echo "getting an ip from UNIVMED..." 
-dhcpcd --renew $IF #> /dev/null
+dhcpcd -n $IF #> /dev/null
 if [ ! $? -eq 0 ] ; then
 	echo "cannot get an IP."
 	exit
