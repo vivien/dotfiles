@@ -1,5 +1,6 @@
 # General aliases
 alias o='xdg-open'
+alias g='xdg-open http://google.com'
 alias :q='exit'
 
 # Git aliases
