@@ -1,0 +1,12 @@
+#!/bin/bash
+
+REPO=~/.dotfiles
+REMOTE=origin
+
+pushd $REPO
+git add .
+git commit -m "$1"
+git push $REMOTE master
+popd
+
+exit
