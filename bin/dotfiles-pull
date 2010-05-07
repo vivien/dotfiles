@@ -1,0 +1,10 @@
+#!/bin/bash
+
+REPO=~/.dotfiles
+REMOTE=redbox
+
+pushd $REPO
+git pull $REMOTE master
+popd
+
+exit
