@@ -98,13 +98,12 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     . /etc/bash_completion
 fi
 
+# force to cd $HOME (for terminator)
 cd
 
+# what do I have to do?
 todo
-
 echo
 
-pushd ~/.dotfiles > /dev/null
-git status
-popd > /dev/null
-
+# are dotfiles clean?
+dotfiles
