@@ -1,2 +1,10 @@
 [color]
 	status = auto
+	branch = auto
+	diff = auto
+	interactive = auto
+[core]
+	editor = vim
+[user]
+	name = Vivien Didelot
+	email = vivien.didelot@gmail.com
