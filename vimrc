@@ -7,7 +7,7 @@
 syntax on
 set number
 set hlsearch
-"set incsearch
+set incsearch
 set history=100            " Only store past 100 commands
 set undolevels=150         " Only undo up to 150 times
 set titlestring=%f title   " Display filename in terminal window
