@@ -13,6 +13,7 @@ set undolevels=150         " Only undo up to 150 times
 set titlestring=%f title   " Display filename in terminal window
 set mouse=a                " Enable mouse support, unless in insert mode
 set enc=utf-8              " Enable unicode support
+set wmh=0                  " Sets the minimum window height to 0
 
 " Theme
 set background=dark
@@ -31,6 +32,9 @@ noremap k gk
 noremap T 
 " map F5 to remove trailing spaces
 "nnoremap <silent> <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
+" switch easily between splits
+map <C-H> <C-W>h<C-W>
+map <C-L> <C-W>l<C-W>
 
 " Indentation, Tabs and Spaces. I use 4 spaces indentation
 filetype on

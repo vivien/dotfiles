@@ -99,7 +99,7 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
 fi
 
 # force to cd $HOME (for terminator)
-cd
+test `pwd` = ~/Documents && cd
 
 # what do I have to do?
 todo
