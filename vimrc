@@ -33,8 +33,10 @@ noremap T 
 " map F5 to remove trailing spaces
 "nnoremap <silent> <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
 " switch easily between splits
-map <C-H> <C-W>h<C-W>
-map <C-L> <C-W>l<C-W>
+map <C-H> <C-W>h<C-W>=
+map <C-L> <C-W>l<C-W>=
+map <C-J> <C-W>j<C-W>=
+map <C-K> <C-W>k<C-W>=
 
 " Indentation, Tabs and Spaces. I use 4 spaces indentation
 filetype on
