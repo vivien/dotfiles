@@ -5,6 +5,7 @@ alias :q='exit'
 alias :wq='exit'
 
 alias vimo='vim -O'
+alias vim='vim -O'
 
 # Git aliases
 alias git-svn-pull='git svn rebase'
