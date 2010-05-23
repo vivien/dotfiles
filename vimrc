@@ -5,13 +5,14 @@
 
 " Global settings
 syntax on
+filetype plugin indent on  " add smart indentation and comment for many languages
 set number
 set hlsearch
 set incsearch
 set history=100            " Only store past 100 commands
 set undolevels=150         " Only undo up to 150 times
 set titlestring=%f title   " Display filename in terminal window
-set mouse=a                " Enable mouse support, unless in insert mode
+set mouse=nvch             " Enable mouse support, unless in insert mode
 set enc=utf-8              " Enable unicode support
 set wmh=0                  " Sets the minimum window height to 0
 
@@ -48,7 +49,6 @@ nmap <C-v> :call setreg("\"",system("xclip -o -selection clipboard"))<CR>p
 imap <C-v> <Esc><C-v>a
 
 " Indentation, Tabs and Spaces. I use 4 spaces indentation
-filetype on
 set expandtab                              " Insert spaces instead of tab
 set tabstop=4                              " Number of spaces for a tab
 set shiftwidth=4                           " Tab size
