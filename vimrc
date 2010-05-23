@@ -31,7 +31,7 @@ noremap k gk
 " remap tag command
 noremap T 
 " map F5 to remove trailing spaces
-"nnoremap <silent> <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
+nnoremap <silent> <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
 " switch easily between splits
 map <C-H> <C-W>h<C-W>=
 map <C-L> <C-W>l<C-W>=
