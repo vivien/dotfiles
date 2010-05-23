@@ -20,7 +20,7 @@ set background=dark
 colorscheme wuye
 
 " Cursor
-set cursorline
+"set cursorline
 "set cursorcolumn
 au BufReadPost * exe "normal! g`\""
 
