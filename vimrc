@@ -17,18 +17,17 @@ set wmh=0                  " Sets the minimum window height to 0
 
 " Theme
 set background=dark
-color slate " Michael Sanders' color scheme, adopted from TextMate
+colorscheme wuye
 
 " Cursor
 set cursorline
-set cursorcolumn
-"TODO don't blink
+"set cursorcolumn
 au BufReadPost * exe "normal! g`\""
 
 " Remap
 noremap j gj
 noremap k gk
-" remap tag command
+" remap ctag command
 noremap T 
 " map F5 to remove trailing spaces
 nnoremap <silent> <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
@@ -37,6 +36,16 @@ map <C-H> <C-W>h<C-W>=
 map <C-L> <C-W>l<C-W>=
 map <C-J> <C-W>j<C-W>=
 map <C-K> <C-W>k<C-W>=
+" disable Ctrl+Space bad things
+imap <Nul> <Space>
+map <Nul> <Nop>
+vmap <Nul> <Nop>
+cmap <Nul> <Nop>
+nmap <Nul> <Nop>
+" add copy/paste from clipboard (need xclip package)
+vmap <C-c> y: call system("xclip -i -selection clipboard", getreg("\""))<CR>
+nmap <C-v> :call setreg("\"",system("xclip -o -selection clipboard"))<CR>p
+imap <C-v> <Esc><C-v>a
 
 " Indentation, Tabs and Spaces. I use 4 spaces indentation
 filetype on
@@ -74,5 +83,5 @@ set completeopt=menu       " Don't show extra info on completions
 set wildignore+=*.o,*.obj,*.pyc,*.DS_Store,*.db " Hide irrelevent matches
 set ignorecase smartcase   " Only be case sensitive when search has uppercase
 "set nofoldenable           " Disable folding
-ru macros/matchit.vim      " Enable extended % matching
+"ru macros/matchit.vim      " Enable extended % matching
 

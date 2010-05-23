@@ -1,5 +1,4 @@
-# ~/.bashrc: executed by bash(1) for non-login shells.
-# see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
+# ~/.bashrc: executed by bash(1) for non-login shells.  # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
 
 # If not running interactively, don't do anything
@@ -96,6 +95,14 @@ fi
 # sources /etc/bash.bashrc).
 if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     . /etc/bash_completion
+fi
+
+# Set $TERM for terminals that set $TERM wrong (like gnome-terminal)
+# that script requires ncurses-term package
+if [ -e /usr/share/terminfo/x/xterm-256color ]; then
+        export TERM='xterm-256color'
+else
+        export TERM='xterm-color'
 fi
 
 # force to cd $HOME (for terminator)
