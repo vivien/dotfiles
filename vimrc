@@ -23,20 +23,21 @@ colorscheme wuye
 " Cursor
 "set cursorline
 "set cursorcolumn
-au BufReadPost * exe "normal! g`\""
+" last position jump. note that your ~/.viminfo should be owned by you.
+au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
 
 " Remap
 noremap j gj
 noremap k gk
 " remap ctag command
-noremap T 
+nmap T 
 " map F5 to remove trailing spaces
 nnoremap <silent> <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
 " switch easily between splits
-map <C-H> <C-W>h<C-W>=
-map <C-L> <C-W>l<C-W>=
-map <C-J> <C-W>j<C-W>=
-map <C-K> <C-W>k<C-W>=
+map <C-h> <C-w>h<C-w>=
+map <C-l> <C-w>l<C-w>=
+map <C-j> <C-w>j<C-w>=
+map <C-k> <C-w>k<C-w>=
 " disable Ctrl+Space bad things
 imap <Nul> <Space>
 map <Nul> <Nop>
@@ -47,6 +48,8 @@ nmap <Nul> <Nop>
 vmap <C-c> y: call system("xclip -i -selection clipboard", getreg("\""))<CR>
 nmap <C-v> :call setreg("\"",system("xclip -o -selection clipboard"))<CR>p
 imap <C-v> <Esc><C-v>a
+" map double-click to enter in insert mode
+nmap <2-LeftMouse> i
 
 " Indentation, Tabs and Spaces. I use 4 spaces indentation
 set expandtab                              " Insert spaces instead of tab

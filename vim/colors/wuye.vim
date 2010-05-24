@@ -20,8 +20,9 @@ hi SpecialKey	gui=NONE guifg=#000000 guibg=#191970	cterm=NONE ctermfg=black cter
 hi NonText	gui=NONE guifg=#191970 guibg=BG		cterm=NONE ctermfg=darkblue ctermbg=black
 hi Directory	gui=BOLD guifg=#20B2AA guibg=BG		cterm=NONE ctermfg=darkcyan ctermbg=black
 hi ErrorMsg	gui=NONE guifg=#FFFF00 guibg=#B22222	cterm=NONE ctermfg=yellow ctermbg=darkred
-hi IncSearch	gui=BOLD guifg=#FF0000 guibg=BG		cterm=BOLD ctermfg=red ctermbg=black
-hi Search	gui=BOLD,REVERSE guifg=NONE guibg=#FF0000 cterm=BOLD ctermfg=red ctermbg=white
+" I switch Search and IncSearch options
+hi Search	gui=BOLD guifg=#FF0000 guibg=BG		cterm=BOLD ctermfg=red ctermbg=black
+hi IncSearch	gui=BOLD,REVERSE guifg=NONE guibg=#FF0000 cterm=BOLD ctermfg=red ctermbg=white
 hi MoreMsg	gui=BOLD guifg=#00FF7F guibg=BG		cterm=BOLD ctermfg=darkcyan ctermbg=black
 hi ModeMsg	gui=NONE guifg=#7CFC00 guibg=#00688B	cterm=NONE ctermfg=yellow ctermbg=darkcyan
 hi LineNr	gui=UNDERLINE guifg=#607B8B guibg=#121212	cterm=UNDERLINE ctermfg=darkgrey ctermbg=black

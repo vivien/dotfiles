@@ -1,5 +1,10 @@
 #/bin/bash
 
+####################################
+## CE SCRIPT N'EST PLUS MAINTENU. ##
+## IL A ETE REECRIT EN RUBY.      ##
+####################################
+
 ##########################################################
 # Ce script genere un squelette LaTeX,
 # un Makefile et eventuellement des fichiers de conf,

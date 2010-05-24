@@ -1,5 +1,7 @@
 #!/usr/bin/ruby -w
 
+#TODO Split author with space to get firstname and lastname
+
 require 'etc'
 require 'erb'
 require 'optparse'
@@ -243,6 +245,8 @@ commands_tpl = %q{
 \newcommand{\pe}{peut-être~}
 
 \newcommand{\todo}[1]{\bigskip \colorbox{myyellow}{\textcolor{mygrey}{\textsf{\textbf{TODO} #1 }}} \bigskip}
+
+\newcommand{\name}[2]{#1 \textsc{#2}}
 
 <% if $options[:pdf?] %>
 \newcommand{\email}[1]{\href{mailto:#1}{\textsf{<#1>}}}
