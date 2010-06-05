@@ -30,7 +30,7 @@ au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g
 noremap j gj
 noremap k gk
 " remap ctag command
-nmap T 
+nmap T <C-]>
 " map F5 to remove trailing spaces
 nnoremap <silent> <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
 " switch easily between splits
@@ -49,7 +49,7 @@ vmap <C-c> y: call system("xclip -i -selection clipboard", getreg("\""))<CR>
 nmap <C-v> :call setreg("\"",system("xclip -o -selection clipboard"))<CR>p
 imap <C-v> <Esc><C-v>a
 " map double-click to enter in insert mode
-nmap <2-LeftMouse> i
+nmap <2-LeftMouse> a
 
 " Indentation, Tabs and Spaces. I use 4 spaces indentation
 set expandtab                              " Insert spaces instead of tab

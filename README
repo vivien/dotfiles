@@ -1,3 +1,9 @@
-git clone git://redbox.homelinux.com/dotfiles.git ~/.dotfiles
+= v0n Dot Files
+
+Here are my config files and scripts I wrote
+
+== Installation
+
+git clone git://github.com/v0n/dotfiles.git ~/.dotfiles
 cd ~/.dotfiles
 bash install.sh

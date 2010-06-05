@@ -268,6 +268,11 @@ commands_tpl = %q{
     \addcontentsline{toc}{chapter}{#1}%
     \chaptermark{#1}%
 }
+
+\newcommand{\unnumpart}[1]{%
+    \part*{#1}%
+    \addcontentsline{toc}{part}{#1}%
+}
 <% end %>
 }.strip
 
@@ -520,7 +525,7 @@ main_tpl = %q{
 <% end %>
 
 <% if $options[:graphics?] %>
-\graphicspath{{fig}}                 % chemins vers les images
+\graphicspath{{fig/}}                 % chemins vers les images
 <% end %>
 
 % informations du document
@@ -570,7 +575,7 @@ main_tpl = %q{
 
 \geometry{top=2.5cm, bottom=2.5cm, left=2cm, right=2cm}
 <% if $options[:graphics?] %>
-\graphicspath{{fig}}                 % chemins vers les images
+\graphicspath{{fig/}}                 % chemins vers les images
 <% end %>
 
 % informations du document
@@ -647,7 +652,7 @@ main_tpl = %q{
 <% if $options[:class] == "article" %>
 \newpage
 <% elsif $options[:class] == "report" %>
-\unnumchap{Introduction}
+\unnumpart{Introduction}
 <% end %>
 
 \end{document} % fin du document
