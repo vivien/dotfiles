@@ -5,6 +5,7 @@
 require 'etc'
 require 'erb'
 require 'optparse'
+#require 'yaml'
 
 version = 1.6
 $today = Time.now.strftime("%d %B %Y")
@@ -70,6 +71,9 @@ def print_values
 end
 
 ARGV.options do |o|
+    o.banner = "Utilisation : #{File.basename $0} [options] [destination]"
+    o.on_head("Options possibles (+ valeurs par defaut) :")
+
     o.on("-m", "--math", "Paquets mathematiques",
         $options[:math?] ? "oui" : "non") { $options[:math?] = true }
     o.on("-l", "--listings", "Paquet Listings",
@@ -88,14 +92,14 @@ ARGV.options do |o|
         $options[:title]) { |v| $options[:title] = v }
     o.on("-d", "--date=DATE", String, "Definir la date",
         $options[:date] + ($options[:date] == '\today' ? " (" + $today + ")" : "")) { |v| $options[:date] = v }
-    o.on("-c", "--class=DATE", String, "Definir la classe",
+    o.on("-c", "--class=CLASS", String, "Definir la classe",
         $options[:class]) { |v| $options[:class] = v }
     o.on("-P", "--package=PACKAGE", String, "Ajouter un paquet",
         $options[:packages].empty? ? "aucun" : "oui: " + $options[:packages].join(", ")) { |v| $options[:packages].push v }
     o.on("-v", "--version",  "Afficher la version",
         version.to_s) { echo "version #{version}" ; exit }
 
-    o.on_tail("destination : " << $options[:outputdir] + ($options[:outputdir] == Dir.getwd ? " (dossier courant)" : ""))
+    o.on_tail("destination :\n    " << $options[:outputdir] + ($options[:outputdir] == Dir.getwd ? " (dossier courant)" : ""))
 end.parse!
 
 if ARGV.length > 1
@@ -108,17 +112,17 @@ end
 
 # demander confirmation
 #print_values
-#TODO actualiser ARGV.options
-print "\nVoulez-vous continuer [Y/n/h] ? "
-case STDIN.gets.strip
-when 'Y', 'y', ''
-when 'h'
-    puts ARGV.options
-    exit
-else
-    echo "Abandon."
-    exit
-end
+#puts $options.to_yaml
+#print "\nVoulez-vous continuer [Y/n/h] ? "
+#case STDIN.gets.strip
+#when 'Y', 'y', ''
+#when 'h'
+#    puts ARGV.options
+#    exit
+#else
+#    echo "Abandon."
+#    exit
+#end
 
 # verifier la destination
 if File.directory? $options[:outputdir]
