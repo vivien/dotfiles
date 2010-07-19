@@ -9,97 +9,97 @@
 set -e
 
 SCRIPT=$(basename $0)
-TODOLIST=$HOME/.todolist
+TODOLIST="$HOME/Ubuntu One/todolist"
 ERROR=65
 
-if [ ! -e $TODOLIST ] ; then
-	touch $TODOLIST
-	echo "$SCRIPT: \`$TODOLIST' touched."
+if [ ! -e "$TODOLIST" ] ; then
+    touch "$TODOLIST"
+    echo "$SCRIPT: \`$TODOLIST' touched."
 fi
 
-LINES=$(wc -l < $TODOLIST)
+LINES=$(wc -l < "$TODOLIST")
 
 while getopts "hlad:p:c" OPTION
 do
-	case $OPTION in
-		h) # help
-			echo "Usage:"
-			printf "%-32s- %s\n" "$SCRIPT [-l]" "list tasks"
-			printf "%-32s- %s\n" "$SCRIPT [-a] 'something to do'" "add task (quotes may be optional)"
-			printf "%-32s- %s\n" "$SCRIPT -dX" "delete task number \`X'"
-			printf "%-32s- %s\n" "$SCRIPT -pX" "print task number \`X'"
-			printf "%-32s- %s\n" "$SCRIPT -c" "clear todolist (remove file)"
-			exit 0 ;;
-		l) # list, done after
-			;;
-		a) # add, done after
-			;;
-		p) # print
-			if [ ! -z "$(echo $OPTARG | sed s/[0-9]*//)" ] ; then
-				echo "$SCRIPT: argument must be an integer." >&2
-				exit $ERROR
-			elif [ $OPTARG -lt 1 ] || [ $OPTARG -gt $LINES ] ; then
-				echo "$SCRIPT: argument must be between 1 and $LINES." >&2
-				exit $ERROR
-			fi
-			sed -n "${OPTARG}p" $TODOLIST
-			exit 0 ;;
-		d) # delete
-			if [ ! -z "$(echo $OPTARG | sed s/[0-9]*//)" ] ; then
-				echo "$SCRIPT: argument must be an integer." >&2
-				exit $ERROR
-			elif [ $OPTARG -lt 1 ] || [ $OPTARG -gt $LINES ] ; then
-				echo "$SCRIPT: argument must be between 1 and $LINES." >&2
-				exit $ERROR
-			fi				
-			sed -n "${OPTARG}p" $TODOLIST
-			read -p "$SCRIPT: delete task $OPTARG [Y/n] ? " QUESTION
-			case $QUESTION in
-				Y|y|'')
-					sed -i "${OPTARG}d" $TODOLIST
-					echo "$SCRIPT: task $OPTARG deleted." ;;
-				n)
-					echo "$SCRIPT: cancel." ;;
-				*)
-					echo "$SCRIPT: unknow answer." >&2
-					exit $ERROR ;;
-			esac
-			exit 0 ;;
-		c) # clear
-			read -p "$SCRIPT: clear todolist [Y/n] ? " QUESTION
-			case $QUESTION in
-				Y|y|'')
-					rm $TODOLIST
-					echo "$SCRIPT: todolist cleared." ;;
-				n)
-					echo "$SCRIPT: cancel." ;;
-				*)
-					echo "$SCRIPT: unknow answer." >&2
-					exit $ERROR ;;
-			esac
-			exit 0 ;;
-		*)
-			echo "$SCRIPT: invalid argument." >&2
-			echo "help: $SCRIPT -h"
-			exit $ERROR ;;
-	esac
+    case $OPTION in
+        h) # help
+            echo "Usage:"
+            printf "%-32s- %s\n" "$SCRIPT [-l]" "list tasks"
+            printf "%-32s- %s\n" "$SCRIPT [-a] 'something to do'" "add task (quotes may be optional)"
+            printf "%-32s- %s\n" "$SCRIPT -dX" "delete task number \`X'"
+            printf "%-32s- %s\n" "$SCRIPT -pX" "print task number \`X'"
+            printf "%-32s- %s\n" "$SCRIPT -c" "clear todolist (remove file)"
+            exit 0 ;;
+        l) # list, done after
+            ;;
+        a) # add, done after
+            ;;
+        p) # print
+            if [ ! -z "$(echo $OPTARG | sed s/[0-9]*//)" ] ; then
+                echo "$SCRIPT: argument must be an integer." >&2
+                exit $ERROR
+            elif [ $OPTARG -lt 1 ] || [ $OPTARG -gt $LINES ] ; then
+                echo "$SCRIPT: argument must be between 1 and $LINES." >&2
+                exit $ERROR
+            fi
+            sed -n "${OPTARG}p" "$TODOLIST"
+            exit 0 ;;
+        d) # delete
+            if [ ! -z "$(echo $OPTARG | sed s/[0-9]*//)" ] ; then
+                echo "$SCRIPT: argument must be an integer." >&2
+                exit $ERROR
+            elif [ $OPTARG -lt 1 ] || [ $OPTARG -gt $LINES ] ; then
+                echo "$SCRIPT: argument must be between 1 and $LINES." >&2
+                exit $ERROR
+            fi              
+            sed -n "${OPTARG}p" "$TODOLIST"
+            read -p "$SCRIPT: delete task $OPTARG [Y/n] ? " QUESTION
+            case $QUESTION in
+                Y|y|'')
+                    sed -i "${OPTARG}d" "$TODOLIST"
+                    echo "$SCRIPT: task $OPTARG deleted." ;;
+                n)
+                    echo "$SCRIPT: cancel." ;;
+                *)
+                    echo "$SCRIPT: unknow answer." >&2
+                    exit $ERROR ;;
+            esac
+            exit 0 ;;
+        c) # clear
+            read -p "$SCRIPT: clear todolist [Y/n] ? " QUESTION
+            case $QUESTION in
+                Y|y|'')
+                    rm "$TODOLIST"
+                    echo "$SCRIPT: todolist cleared." ;;
+                n)
+                    echo "$SCRIPT: cancel." ;;
+                *)
+                    echo "$SCRIPT: unknow answer." >&2
+                    exit $ERROR ;;
+            esac
+            exit 0 ;;
+        *)
+            echo "$SCRIPT: invalid argument." >&2
+            echo "help: $SCRIPT -h"
+            exit $ERROR ;;
+    esac
 done
 
 shift $((OPTIND - 1))
 
 if [ $# -eq 0 ]
 then # list tasks
-	if [ $LINES -eq 0 ]
-	then
-		echo "$SCRIPT: nothing to do!"
-	else
-		cat -n $TODOLIST
-		echo "--"
-		echo "TODO: $LINES tasks in \`$TODOLIST'."
-	fi
+    if [ $LINES -eq 0 ]
+    then
+        echo "$SCRIPT: nothing to do!"
+    else
+        cat -n "$TODOLIST"
+        echo "--"
+        echo "TODO: $LINES tasks in \`$TODOLIST'."
+    fi
 else # add task
-	echo "$@" >> $TODOLIST
-	echo "$SCRIPT: task number $((LINES + 1)) added to todolist."
+    echo "$@" >> "$TODOLIST"
+    echo "$SCRIPT: task number $((LINES + 1)) added to todolist."
 fi
 
 exit 0
