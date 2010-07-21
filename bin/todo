@@ -4,7 +4,7 @@
 ## Tips: add `todo' at the end of your ~/.bashrc to run it on every shell opening ;)
 
 ## By Vivien DIDELOT aka v0n
-## Last modification: 4 sept 09
+## Last modification: 21 jul 10
 
 set -e
 
@@ -51,7 +51,7 @@ do
             elif [ $OPTARG -lt 1 ] || [ $OPTARG -gt $LINES ] ; then
                 echo "$SCRIPT: argument must be between 1 and $LINES." >&2
                 exit $ERROR
-            fi              
+            fi
             sed -n "${OPTARG}p" "$TODOLIST"
             read -p "$SCRIPT: delete task $OPTARG [Y/n] ? " QUESTION
             case $QUESTION in
@@ -93,9 +93,9 @@ then # list tasks
     then
         echo "$SCRIPT: nothing to do!"
     else
-        cat -n "$TODOLIST"
-        echo "--"
         echo "TODO: $LINES tasks in \`$TODOLIST'."
+        echo "--"
+        cat -n "$TODOLIST"
     fi
 else # add task
     echo "$@" >> "$TODOLIST"

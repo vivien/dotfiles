@@ -109,7 +109,8 @@ else
 fi
 
 # force to cd $HOME (for terminator)
-test `pwd` = ~/Documents && cd
+#test `pwd` = ~/Documents && cd
+cd
 
 # what do I have to do?
 todo

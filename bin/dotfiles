@@ -13,7 +13,7 @@ case $1 in
         git push origin master
         ;;
     *)
-        git status
+        git status --short
         ;;
 esac
 popd > /dev/null
