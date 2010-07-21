@@ -10,3 +10,9 @@ alias vim='vim -O'
 # Git aliases
 alias git-svn-pull='git svn rebase'
 alias git-svn-push='git svn rebase && git svn dcommit'
+
+# Aptitude aliases
+alias i='sudo aptitude install'
+alias u='sudo aptitude update'
+alias d='sudo aptitude update && sudo aptitude dist-upgrade'
+
