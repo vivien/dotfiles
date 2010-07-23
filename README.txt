@@ -11,4 +11,3 @@ bash install.sh
 # You can download and install Inconsolata font with:
 mkdir -p ~/.fonts && wget http://www.levien.com/type/myfonts/Inconsolata.otf -O ~/.fonts/Inconsolata.otf
 
-# PUSH TEST
