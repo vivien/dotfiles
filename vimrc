@@ -3,6 +3,9 @@
 "   Michael Sanders
 "   Mathieu Schroeter
 
+"TODO Write condition to set the good indentation
+"TODO Map original <C-v> action to <C-Insert>
+
 " Global settings
 syntax on
 filetype plugin indent on  " add smart indentation and comment for many languages
@@ -44,7 +47,9 @@ map <Nul> <Nop>
 vmap <Nul> <Nop>
 cmap <Nul> <Nop>
 nmap <Nul> <Nop>
-" add copy/paste from clipboard (need xclip package)
+" remap Ctrl-V and add copy/paste from clipboard (need xclip package)
+" e.g.: use Ctrl-Insert<Tab> to insert a real tab
+"imap <C-Insert> <C-v>
 vmap <C-c> y: call system("xclip -i -selection clipboard", getreg("\""))<CR>
 nmap <C-v> :call setreg("\"",system("xclip -o -selection clipboard"))<CR>p
 imap <C-v> <Esc><C-v>a
@@ -56,8 +61,8 @@ set expandtab                              " Insert spaces instead of tab
 set tabstop=4                              " Number of spaces for a tab
 set shiftwidth=4                           " Tab size
 set softtabstop=4                          " Makes one backspace go back a full 4 spaces
+autocmd FileType ruby setlocal tabstop=2 shiftwidth=2 softtabstop=2 " 2 spaces for rb files
 autocmd FileType make setlocal noexpandtab " Turn off expandtab for makefiles
-                                           " use Ctrl-V<Tab> for a real tab)
                                            " Use :retab to match the current tab settings
 " Highlight unwanted Tabs and Spaces
 highlight Tab ctermbg=darkgray guibg=darkgray
