@@ -1,5 +1,6 @@
 require 'rubygems'
 require 'utility_belt'
+require 'yaml'
 
 # http://rbjl.net/31-the-multi-mega-method-list
 module Kernel
