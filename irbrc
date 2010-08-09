@@ -2,6 +2,7 @@ require 'rubygems'
 require 'utility_belt'
 require 'yaml'
 
+# Better method to list methods of an object :)
 # http://rbjl.net/31-the-multi-mega-method-list
 module Kernel
   def method_list(levels = 1)
@@ -30,4 +31,35 @@ module Kernel
   end
 
   alias mm method_list
+end
+
+# Unix-like functions
+# List current directory content, or a directory.
+# You can give a symbol to be faster :)
+def ls(arg = '*')
+  arg = arg.to_s if arg.is_a? Symbol
+  if File.directory? arg
+    Dir.chdir arg do
+      Dir['*']
+    end
+  else
+    Dir[arg]
+  end
+end
+
+# Change directory to home, or directory given.
+# Like ls function, give a symbol to be faster ;)
+def cd(arg = nil)
+  if arg.nil?
+    Dir.chdir
+  else
+    arg = arg.to_s if arg.is_a? Symbol
+    Dir.chdir arg
+  end
+  Dir.pwd
+end
+
+# Where am I?
+def pwd
+  Dir.pwd
 end
