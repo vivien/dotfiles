@@ -108,6 +108,9 @@ else
         export TERM='xterm-color'
 fi
 
+# set the EDITOR variable
+export EDITOR='vim'
+
 # force to cd $HOME (for terminator)
 #test `pwd` = ~/Documents && cd
 cd
