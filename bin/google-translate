@@ -53,8 +53,8 @@ from = 'auto'
 to = 'en'
 
 ARGV.options do |o|
-  o.banner = "Usage: #{File.basename $0} [options] text to translate\n"
-  o.on_head = "Options:"
+  o.banner = "Usage: #{$0} [options] text to translate"
+  o.on_head("\nOptions:")
   o.on('-f', '--from=LANGUAGE', String, "Translate from LANGUAGE") { |lang| from = lang }
   o.on('-t', '--to=LANGUAGE',   String, "Translate to LANGUAGE")   { |lang| to = lang }
 end
