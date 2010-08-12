@@ -1,6 +1,9 @@
 #!/usr/bin/ruby -w
 
-# Script to translate to English or French. Source language will be detected.
+# Command line tool to translate a text with Google Translate.
+# Source language will be detected.
+# If no text is given, then read standard input.
+
 # With a mini Ruby Google Translate API inside \o/
 # Author: Vivien Didelot (v0n).
 
@@ -53,7 +56,7 @@ from = 'auto'
 to = 'en'
 
 ARGV.options do |o|
-  o.banner = "Usage: #{$0} [options] text to translate"
+  o.banner = "Usage: #{$0} [options] [text to translate]"
   o.on_head("\nOptions:")
   o.on('-f', '--from=LANGUAGE', String, "Translate from LANGUAGE") { |lang| from = lang }
   o.on('-t', '--to=LANGUAGE',   String, "Translate to LANGUAGE")   { |lang| to = lang }
@@ -62,9 +65,12 @@ end
 begin
   ARGV.options.parse!
   text = ARGV.join(' ')
-  raise "What should I translate?" if text.empty?
+  text.empty? and text = STDIN.gets.strip
 
+  # Make the script smarter!
   to = 'fr' if from == 'auto' && to == 'en' && text.english?
+
+  # All that for this
   puts text.translate(to, from)
 rescue => e
   STDERR.puts "Oops! #{e}"
