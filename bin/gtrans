@@ -7,19 +7,19 @@ require 'json'
 sl = 'en'
 tl = 'fr'
 
-if "fr" == ARGV[0]
-	ARGV.shift
-	sl, tl = tl, sl
+if ARGV.first == 'fr'
+  ARGV.shift
+  sl, tl = tl, sl
 end
 
-argv = ARGV.join(' ')
-exit if argv.empty?
+args = ARGV.join(' ')
+exit if args.empty?
 
-url = URI.escape("http://translate.google.com/translate_a/t?client=t&text=#{argv}&hl=fr&sl=#{sl}&tl=#{tl}&pc=0")
+url = URI.escape("http://translate.google.com/translate_a/t?client=j&text=#{args}&sl=#{sl}&tl=#{tl}")
 res = open(url).read
 
 json = JSON.parse(res)
-text = json['sentences'][0]['trans']
+text = json['sentences'].first['trans']
 
 puts text
 
