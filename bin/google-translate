@@ -1,0 +1,73 @@
+#!/usr/bin/ruby -w
+
+# Script to translate to English or French. Source language will be detected.
+# With a mini Ruby Google Translate API inside \o/
+# Author: Vivien Didelot (v0n).
+
+require 'rubygems'
+require 'open-uri'
+require 'json'
+require 'optparse'
+
+# Add translation method to String class
+# Using Google Translate.
+class String
+
+  # Translate the string.
+  def translate(to = "en", from = "auto")
+    json = translate_json(from, to)
+
+    return json['sentences'].first['trans']
+  end
+
+  # Detect the language of the string.
+  def language
+    json = translate_json('auto', 'en')
+
+    return json['src']
+  end
+
+  # Is is French?
+  def french?
+    language == 'fr'
+  end
+
+  # Is is English?
+  def english?
+    language == 'en'
+  end
+
+  private
+
+  # Private method to get the raw JSON response from Google
+  def translate_json(from, to)
+    url = URI.escape("http://translate.google.com/translate_a/t?client=j&text=#{self}&sl=#{from}&tl=#{to}")
+    response = open(url).read
+
+    return JSON.parse(response)
+  end
+end
+
+# Program
+from = 'auto'
+to = 'en'
+
+ARGV.options do |o|
+  o.banner = "Usage: #{File.basename $0} [options] text to translate\n"
+  o.on_head = "Options:"
+  o.on('-f', '--from=LANGUAGE', String, "Translate from LANGUAGE") { |lang| from = lang }
+  o.on('-t', '--to=LANGUAGE',   String, "Translate to LANGUAGE")   { |lang| to = lang }
+end
+
+begin
+  ARGV.options.parse!
+  text = ARGV.join(' ')
+  raise "What should I translate?" if text.empty?
+
+  to = 'fr' if from == 'auto' && to == 'en' && text.english?
+  puts text.translate(to, from)
+rescue => e
+  STDERR.puts "Oops! #{e}"
+end
+
+exit
