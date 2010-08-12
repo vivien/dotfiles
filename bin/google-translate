@@ -4,7 +4,7 @@
 # Source language will be detected.
 # If no text is given, then read standard input.
 
-# With a mini Ruby Google Translate API inside \o/
+# With a mini Google Translate Ruby lib inside, just for fun \o/
 # Author: Vivien Didelot (v0n).
 
 require 'rubygems'
@@ -57,7 +57,7 @@ to = 'en'
 
 ARGV.options do |o|
   o.banner = "Usage: #{$0} [options] [text to translate]"
-  o.on_head("\nOptions:")
+  o.on_head("Options:")
   o.on('-f', '--from=LANGUAGE', String, "Translate from LANGUAGE") { |lang| from = lang }
   o.on('-t', '--to=LANGUAGE',   String, "Translate to LANGUAGE")   { |lang| to = lang }
 end
@@ -65,7 +65,10 @@ end
 begin
   ARGV.options.parse!
   text = ARGV.join(' ')
-  text.empty? and text = STDIN.gets.strip
+  if text.empty?
+    print "text to translate: "
+    text = STDIN.gets.strip
+  end
 
   # Make the script smarter!
   to = 'fr' if from == 'auto' && to == 'en' && text.english?
