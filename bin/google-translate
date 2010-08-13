@@ -45,7 +45,7 @@ class String
   # Private method to get the raw JSON response from Google
   def translate_json(from, to)
     url = URI.escape("http://translate.google.com/translate_a/t?client=j&text=#{self}&sl=#{from}&tl=#{to}")
-    response = open(url).read
+    response = open(url, 'User-Agent' => 'Mozilla/5.0', 'Accept-Charset' => 'utf-8').read
 
     return JSON.parse(response)
   end
