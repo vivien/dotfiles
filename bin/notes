@@ -1,0 +1,69 @@
+#!/usr/bin/ruby
+
+# Command line tool to grep annotations from source files.
+# Author:: Vivien 'v0n' Didelot <vivien.didelot@gmail.com>
+
+# Useless, but informs that rak should be installed.
+#require 'rak'
+require 'optparse'
+
+NOTES_VERSION = "0.0"
+
+all_tags = ["TODO", "FIXME", "IMPROVE"]
+
+def find(tags, target)
+  cmd = "rak " << "\'#{tags * "|"}\' " << target * " "
+  out = `#{cmd}`.strip
+  raise out if $?.exitstatus > 0
+
+  out.split("\n").map do |l|
+    if l =~ /^(.*):(\d*):.*(#{tags * "|"})\s*(.*)$/
+      { :file => $1, :line => $2.to_i, :tag => $3, :text => $4.strip }
+    else
+      # Just for a debug purpose
+      puts "notes: does not match. bug? \"#{l}\""
+    end
+  end
+end
+
+def write(arr, file)
+  File.open(file, 'w') do |f|
+    arr.each do |a|
+      f.write " * #{a[:tag]}: #{a[:file]} (#{a[:line]}) #{a[:text]}\n"
+    end
+  end
+end
+
+def display(arr)
+  arr.each do |a|
+    printf "%s:%s: %s %s\n", a[:file], a[:line], a[:tag], a[:text]
+  end
+end
+
+tags = []
+target = []
+file = nil
+
+ARGV.options do |o|
+  o.banner = "Usage: #{File.basename $0} [options] [target]\n"
+  o.on_head("\nAvailable options:")
+  o.on("-a", "--all",                "Search TODO, FIXME and IMPROVE annotations") { tags << all_tags }
+  o.on("-t", "--todo",               "Search TODO annotations")                    { tags << "TODO" }
+  o.on("-f", "--fixme",              "Search FIXME annotations")                   { tags << "FIXME" }
+  o.on("-i", "--improve",            "Search IMPROVE annotations")                 { tags << "IMPROVE" }
+  o.on("-c", "--custom=TAG", String, "Search TAG annotations")                     { |v| tags << v }
+  o.on("-o", "--out=FILE",   String, "Save output in FILE")                        { |v| file = v }
+  o.on("-v", "--version",            "Print notes version")                        { puts "notes: version #{NOTES_VERSION}" ; exit }
+end
+
+begin
+  ARGV.options.parse!
+  tags = tags.empty? ? all_tags : tags.flatten
+  target = ARGV
+  arr = find(tags, target)
+  file.nil? ? display(arr) : write(arr, file)
+rescue => e
+  STDERR.puts "notes: error: #{e}"
+end
+
+exit
