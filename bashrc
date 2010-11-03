@@ -37,6 +37,9 @@ if [[ -n "$PS1" ]] ; then
     # should be on the output of commands, not on the prompt
     force_color_prompt=yes
 
+    # add Git dirty state mark to PS1
+    GIT_PS1_DIRTYSTATE=true
+
     if [ -n "$force_color_prompt" ]; then
         if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
             # We have color support; assume it's compliant with Ecma-48
@@ -49,7 +52,8 @@ if [[ -n "$PS1" ]] ; then
     fi
 
     if [ "$color_prompt" = yes ]; then
-        PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+        #PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+        PS1='\[\033[01;32m\]\w\[\033[01;34m\]$(__git_ps1)\[\033[00m\]\$ '
     else
         PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
     fi
