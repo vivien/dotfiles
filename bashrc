@@ -38,6 +38,7 @@ if [[ -n "$PS1" ]] ; then
     force_color_prompt=yes
 
     # add Git dirty state mark to PS1
+    #FIXME git ps1 dirtystate does not work
     GIT_PS1_DIRTYSTATE=true
 
     if [ -n "$force_color_prompt" ]; then
