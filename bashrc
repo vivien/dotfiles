@@ -1,4 +1,5 @@
-# ~/.bashrc: executed by bash(1) for non-login shells.  # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
+# ~/.bashrc: executed by bash(1) for non-login shells.
+# see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
 
 # If not running interactively, don't do anything
@@ -21,11 +22,6 @@ if [[ -n "$PS1" ]] ; then
 
     # make less more friendly for non-text input files, see lesspipe(1)
     [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
-
-    # set variable identifying the chroot you work in (used in the prompt below)
-    if [ -z "$debian_chroot" ] && [ -r /etc/debian_chroot ]; then
-        debian_chroot=$(cat /etc/debian_chroot)
-    fi
 
     # Customize PS1 with Git routines
     GIT_PS1_SHOWDIRTYSTATE=true # Add Git dirty state mark to PS1
@@ -54,17 +50,26 @@ if [[ -n "$PS1" ]] ; then
     fi
 
     if [ "$color_prompt" = yes ]; then
-        #PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
-        PS1='\[\033[01;32m\]\W\[\033[01;34m\]$(__git_ps1)\[\033[00m\]\$ '
+        # Colors ('[01;' for bold and '[00;' for non-bold)
+        # Gray    \[\033[01;30m\]
+        # Red     \[\033[01;31m\]
+        # Green   \[\033[01;32m\]
+        # Yellow  \[\033[01;33m\]
+        # Blue    \[\033[01;34m\]
+        # Magenta \[\033[01;35m\]
+        # Cyan    \[\033[01;36m\]
+        # White   \[\033[01;37m\]
+        # Normal  \[\033[00m\]
+        PS1='($(date +%R)) \[\033[01;34m\]\W$(__git_ps1 "\[\033[01;37m\]@\[\033[00;31m\]%s")\[\033[00m\]: '
     else
-        PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+        PS1='($(date +%R)) \W$(__git_ps1 "@%s"): '
     fi
     unset color_prompt force_color_prompt
 
     # If this is an xterm set the title to user@host:dir
     case "$TERM" in
         xterm*|rxvt*)
-            PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
+            PS1="\[\e]0;\u@\h: \w\a\]$PS1"
             ;;
         *)
             ;;
@@ -112,22 +117,16 @@ if [[ -n "$PS1" ]] ; then
     fi
 fi # end of 'if [[ -n "$PS1" ]] ; then'
 
-# This is a good place to source rvm v v v
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"  # This loads RVM into a shell session.
+# This is a good place to source rvm v v v (loads RVM into a shell session).
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
 
-# set the EDITOR variable
+# Set the EDITOR variable
 export EDITOR='vim'
 
-# force to cd $HOME (for terminator)
-#test `pwd` = ~/Documents && cd
-cd
-
-# what do I have to do?
+# What do I have to do?
 todo
 echo
 
-# are dotfiles clean?
+# Are dotfiles clean?
 dotfiles
 
-# Force loading of keyboard hack (disable capslock key)
-xmodmap ~/.Xmodmap
