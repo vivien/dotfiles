@@ -27,6 +27,11 @@ if [[ -n "$PS1" ]] ; then
         debian_chroot=$(cat /etc/debian_chroot)
     fi
 
+    # Customize PS1 with Git routines
+    GIT_PS1_SHOWDIRTYSTATE=true # Add Git dirty state mark to PS1
+    GIT_PS1_SHOWSTASHSTATE=true # Show if something is stashed
+    GIT_PS1_SHOWUNTRACKEDFILES=true # Show if there're untracked files
+
     # set a fancy prompt (non-color, unless we know we "want" color)
     case "$TERM" in
         xterm-color) color_prompt=yes;;
@@ -36,10 +41,6 @@ if [[ -n "$PS1" ]] ; then
     # off by default to not distract the user: the focus in a terminal window
     # should be on the output of commands, not on the prompt
     force_color_prompt=yes
-
-    # add Git dirty state mark to PS1
-    #FIXME git ps1 dirtystate does not work
-    GIT_PS1_DIRTYSTATE=true
 
     if [ -n "$force_color_prompt" ]; then
         if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
@@ -109,25 +110,24 @@ if [[ -n "$PS1" ]] ; then
     else
         export TERM='xterm-color'
     fi
-
-    # set the EDITOR variable
-    export EDITOR='vim'
-
-    # force to cd $HOME (for terminator)
-    #test `pwd` = ~/Documents && cd
-    cd
-
-    # what do I have to do?
-    todo
-    echo
-
-    # are dotfiles clean?
-    dotfiles
-
 fi # end of 'if [[ -n "$PS1" ]] ; then'
 
 # This is a good place to source rvm v v v
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"  # This loads RVM into a shell session.
+
+# set the EDITOR variable
+export EDITOR='vim'
+
+# force to cd $HOME (for terminator)
+#test `pwd` = ~/Documents && cd
+cd
+
+# what do I have to do?
+todo
+echo
+
+# are dotfiles clean?
+dotfiles
 
 # Force loading of keyboard hack (disable capslock key)
 xmodmap ~/.Xmodmap
