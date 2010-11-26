@@ -1,6 +1,6 @@
 #!/bin/bash
-# desc  : deploy dotfiles from repository to home dir.
-# author: Vivien Didelot aka v0n
+# Desc  : Deploy dotfiles from repository to home dir.
+# Author: Vivien Didelot aka v0n
 
 REPLACE_ALL=false
 
@@ -14,9 +14,9 @@ function Deploy {
     if $REPLACE_ALL ; then
       Overwrite $1 $2
     else
-      read -p "overwrite $2? [Y/n/a] " QUESTION
+      read -p "Overwrite $2? [y/N/a] " QUESTION
       case $QUESTION in
-        'Y'|'y')
+        'y')
           Overwrite $1 $2
           ;;
         a)
@@ -24,19 +24,19 @@ function Deploy {
           Overwrite $1 $2
           ;;
         *)
-          echo "skip $2"
+          echo "skipped $2"
           ;;
       esac
     fi
   else
-    read -p "create $2? [Y/n] " QUESTION
+    read -p "Create $2? [y/N] " QUESTION
     case $QUESTION in
-      'Y'|'y')
+      'y')
         test -d `dirname $2` || mkdir -p `dirname $2`
         ln -sv $1 $2
         ;;
       *)
-        echo "skip $2"
+        echo "skipped $2"
         ;;
     esac
   fi
