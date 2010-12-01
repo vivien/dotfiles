@@ -67,7 +67,8 @@ fi
 
 # get an ip from UNIVMED
 echo "getting an ip from UNIVMED..."
-dhcpcd -n $IF #> /dev/null
+#dhcpcd -n $IF #> /dev/null
+dhclient wlan0
 if [ ! $? -eq 0 ] ; then
     echo "cannot get an IP."
     exit
