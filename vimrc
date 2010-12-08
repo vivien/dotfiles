@@ -78,9 +78,12 @@ set list listchars=tab:»·,trail:·
 
 " Advanced options
 """"""""""""""""""
-" Add the active rvm ruby to the status line
+" Customize statusline with RVM and fugitive (thanks to telemachus)
 set ls=2
-set statusline+=%{rvm#statusline()}
+set statusline=%<%f\ %h%m%r%y
+\%{exists('g:loaded_rvm')?rvm#statusline_ft_ruby():''}
+\%{exists('g:loaded_fugitive')?fugitive#statusline():''}
+\%=%-14.(%l,%c%V%)\ %P
 
 " Show when a line exceeds 80 chars
 au BufWinEnter * let w:m1=matchadd('ErrorMsg', '\%>80v.\+', -1) " highlight lines longer than 80 chars
