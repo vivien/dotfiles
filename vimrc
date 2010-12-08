@@ -59,6 +59,8 @@ nmap <C-v> :call setreg("\"",system("xclip -o -selection clipboard"))<CR>p
 imap <C-v> <Esc><C-v>a
 " map double-click to enter in insert mode
 nmap <2-LeftMouse> a
+" toggle button for NERDTree
+map <F2> <Esc>:NERDTreeToggle<CR>
 
 " Indentation, Tabs and Spaces (I use 4 spaces indentation by default).
 """"""""""""""""""""""""""""""
