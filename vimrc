@@ -3,7 +3,8 @@
 "   Michael Sanders
 "   Mathieu Schroeter
 
-"TODO Write condition to set the good indentation
+"TODO switch case for special file type condition. e.g. +80 chars highlight
+"and doxygen only for C file / specific indentation
 "TODO Map original <C-v> action to <C-Insert>
 
 " Global settings
@@ -87,8 +88,8 @@ set statusline=%<%f\ %h%m%r%y
 \%{exists('g:loaded_fugitive')?fugitive#statusline():''}
 \%=%-14.(%l,%c%V%)\ %P
 
-" Show when a line exceeds 80 chars
-au BufWinEnter * let w:m1=matchadd('ErrorMsg', '\%>80v.\+', -1) " highlight lines longer than 80 chars
+" Show when a line of a C file exceeds 80 chars
+au FileType c match ErrorMsg '\%>80v.\+'
 
 " Special highlighting for Doxygen
 let g:load_doxygen_syntax=1
