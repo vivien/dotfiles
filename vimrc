@@ -7,6 +7,7 @@
 "TODO Map original <C-v> action to <C-Insert>
 
 " Global settings
+"""""""""""""""""
 syntax on
 filetype plugin indent on  " add smart indentation and comment for many languages
 set number
@@ -20,16 +21,19 @@ set enc=utf-8              " Enable unicode support
 set wmh=0                  " Sets the minimum window height to 0
 
 " Theme
+"""""""
 set background=dark
 colorscheme wuye
 
 " Cursor
+""""""""
 "set cursorline
 "set cursorcolumn
 " last position jump. note that your ~/.viminfo should be owned by you.
 au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
 
 " Remap
+"""""""
 noremap j gj
 noremap k gk
 " remap ctag command
@@ -56,7 +60,8 @@ imap <C-v> <Esc><C-v>a
 " map double-click to enter in insert mode
 nmap <2-LeftMouse> a
 
-" Indentation, Tabs and Spaces. I use 4 spaces indentation
+" Indentation, Tabs and Spaces (I use 4 spaces indentation by default).
+""""""""""""""""""""""""""""""
 set expandtab                              " Insert spaces instead of tab
 set tabstop=4                              " Number of spaces for a tab
 set shiftwidth=4                           " Tab size
@@ -71,13 +76,18 @@ au BufWinEnter * let w:m2=matchadd('Tab', '\t', -1)
 au BufWinEnter * let w:m3=matchadd('Space', '\s\+$\| \+\ze\t', -1)
 set list listchars=tab:»·,trail:·
 
+" Advanced options
+""""""""""""""""""
+" Add the active rvm ruby to the status line
+set ls=2
+set statusline+=%{rvm#statusline()}
+
 " Show when a line exceeds 80 chars
 au BufWinEnter * let w:m1=matchadd('ErrorMsg', '\%>80v.\+', -1) " highlight lines longer than 80 chars
 
 " Special highlighting for Doxygen
 let g:load_doxygen_syntax=1
 
-" Advanced options
 "set shm=atI                " Disable intro screen
 set lazyredraw             " Don't redraw screen during macros
 set ttyfast                " Improves redrawing for newer computers
