@@ -123,10 +123,6 @@ fi # end of 'if [[ -n "$PS1" ]] ; then'
 # Set the EDITOR variable
 export EDITOR='vim'
 
-# What do I have to do?
-todo
-echo
-
 # Are dotfiles clean?
 dotfiles
 
