@@ -28,26 +28,8 @@ if [[ -n "$PS1" ]] ; then
     GIT_PS1_SHOWSTASHSTATE=true # Show if something is stashed
     GIT_PS1_SHOWUNTRACKEDFILES=true # Show if there're untracked files
 
-    # set a fancy prompt (non-color, unless we know we "want" color)
-    case "$TERM" in
-        xterm-color) color_prompt=yes;;
-    esac
-
-    # uncomment for a colored prompt, if the terminal has the capability; turned
-    # off by default to not distract the user: the focus in a terminal window
-    # should be on the output of commands, not on the prompt
-    force_color_prompt=yes
-
-    if [ -n "$force_color_prompt" ]; then
-        if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
-            # We have color support; assume it's compliant with Ecma-48
-            # (ISO/IEC-6429). (Lack of such support is extremely rare, and such
-            # a case would tend to support setf rather than setaf.)
-            color_prompt=yes
-        else
-            color_prompt=
-        fi
-    fi
+    # set it to 'yes' if you want colored prompt
+    color_prompt=yes
 
     if [ "$color_prompt" = yes ]; then
         # Colors ('[01;' for bold and '[00;' for non-bold)
@@ -64,16 +46,8 @@ if [[ -n "$PS1" ]] ; then
     else
         PS1='($(date +%R)) \W$(__git_ps1 "@%s"): '
     fi
-    unset color_prompt force_color_prompt
 
-    # If this is an xterm set the title to user@host:dir
-    case "$TERM" in
-        xterm*|rxvt*)
-            PS1="\[\e]0;\u@\h: \w\a\]$PS1"
-            ;;
-        *)
-            ;;
-    esac
+    unset color_prompt
 
     # enable color support of ls and also add handy aliases
     if [ -x /usr/bin/dircolors ]; then
@@ -108,13 +82,6 @@ if [[ -n "$PS1" ]] ; then
         . /etc/bash_completion
     fi
 
-    # Set $TERM for terminals that set $TERM wrong (like gnome-terminal)
-    # that script requires ncurses-term package
-    if [ -e /usr/share/terminfo/x/xterm-256color ]; then
-        export TERM='xterm-256color'
-    else
-        export TERM='xterm-color'
-    fi
 fi # end of 'if [[ -n "$PS1" ]] ; then'
 
 # This is a good place to source rvm v v v (loads RVM into a shell session).
