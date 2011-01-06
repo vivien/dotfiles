@@ -9,14 +9,14 @@ USER=
 PASSWORD=
 IF=wlan0
 
-URL=https://securelogin.arubanetworks.com/auth/index.html/u
+    URL=https://securelogin.arubanetworks.com/auth/index.html/u
 
-while getopts "u:p:i:" OPT ; do
-    case $OPT in
-        u) USER=$OPTARG ;;
+    while getopts "u:p:i:" OPT ; do
+        case $OPT in
+            u) USER=$OPTARG ;;
         p) PASSWORD=$OPTARG ;;
-        i) IF=$OPTARG ;;
-    esac
+    i) IF=$OPTARG ;;
+esac
 done
 
 if [ -z $IF ] ; then
@@ -67,21 +67,25 @@ fi
 
 # get an ip from UNIVMED
 echo "getting an ip from UNIVMED..."
-#dhcpcd -n $IF #> /dev/null
-dhclient wlan0
-if [ ! $? -eq 0 ] ; then
-    echo "cannot get an IP."
-    exit
+if [ -z `which dhcpcd 2>/dev/null` ] ; then
+    dhclient $IF
+    if [ ! $? -eq 0 ] ; then
+        echo "cannot get an IP."
+        exit
+    fi
+else
+    dhcpcd $IF #> /dev/null
+    #TODO test for error
 fi
 
-#TODO tester la connexion
+#TODO test connection (ping doesn't work under UNIVMED)
 
 # authenticate to UNIVMED
 echo "logging to UNIVMED..."
 curl -d "user=$USER" -d "password=$PASSWORD" -d "fqdn=u2" $URL &> /dev/null
 case $? in
     0) echo "OK." ;;
-    6) echo "resolution problem" ;;
+6) echo "resolution problem" ;;
     *) echo "Authentication error." ;;
 esac
 
