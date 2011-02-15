@@ -9,8 +9,6 @@ alias :q='exit'
 alias :wq='exit'
 alias :x='exit'
 
-alias back='a=`pwd`; popd >/dev/null && pushd -n "$a" >/dev/null'
-
 # Git aliases
 alias git-svn-pull='git svn rebase'
 alias git-svn-push='git svn rebase && git svn dcommit'
@@ -19,3 +17,4 @@ alias git-svn-push='git svn rebase && git svn dcommit'
 alias i='sudo aptitude install'
 alias u='sudo aptitude update'
 alias d='sudo aptitude update && sudo aptitude dist-upgrade'
+
