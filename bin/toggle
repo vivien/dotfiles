@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# I can use for instance:
+# wmctrl -a Calculatrice ; test $? -eq 0 || gnome-calculator
+# But that's cleaner to use the window ID instead,
+# and especially because windows title are often not relevant,
+# or may change (i.e. a terminal).
+
+#TODO forbid multiple lines grepped.
+
+WIN="$1"
+test -z "$WIN" && echo "Usage: `basename $0` <win> [<win_cmd>]" && exit
+WIN_CMD="$2"
+test -z "$WIN_CMD" && WIN_CMD="$WIN"
+WIN_ID=`wmctrl -lx | grep "$WIN" | awk '{print $1}'`
+
+if [ -n "$WIN_ID" ] ; then
+    wmctrl -i -a $WIN_ID
+else
+    $WIN_CMD &
+fi
+
+exit

@@ -3,19 +3,11 @@
 REPO=~/.dotfiles
 
 pushd $REPO > /dev/null
-case $1 in
-    pull)
-        git pull origin master
-        ;;
-    push)
-        git add .
-        git commit -am "$2"
-        git push origin master
-        ;;
-    *)
-        git status --short
-        ;;
-esac
+if [ -z "$1" ] ; then
+    git status --short
+else
+    git "$@"
+fi
 popd > /dev/null
 
 exit
