@@ -8,3 +8,5 @@
 [user]
 	name = Vivien Didelot
 	email = vivien.didelot@gmail.com
+[diff]
+	external = /home/v0n/bin/diff.py
