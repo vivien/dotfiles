@@ -1,4 +1,4 @@
-#!/usr/bin/ruby -w
+#!/usr/bin/env ruby
 
 # Command line tool to translate a text with Google Translate.
 # Source language will be detected.
