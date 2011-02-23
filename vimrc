@@ -2,15 +2,14 @@
 " inspired from:
 "   Michael Sanders
 "   Mathieu Schroeter
-
-"TODO switch case for special file type condition. e.g. +80 chars highlight
-"and doxygen only for C file / specific indentation
-"TODO Map original <C-v> action to <C-Insert>
+"   Bart Trojanowski
 
 " Global settings
 """""""""""""""""
 syntax on
-filetype plugin indent on  " add smart indentation and comment for many languages
+filetype plugin indent on      " add smart indentation and comment for many languages
+set smarttab                   " make <tab> and <backspace> smarter
+set backspace=eol,start,indent " allow backspacing over indent, eol, & start
 set number
 set hlsearch
 set incsearch
@@ -37,10 +36,6 @@ au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g
 """""""
 noremap j gj
 noremap k gk
-" remap ctag command
-nmap T <C-]>
-" map F5 to remove trailing spaces
-nnoremap <silent> <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
 " switch easily between splits
 map <C-h> <C-w>h<C-w>=
 map <C-l> <C-w>l<C-w>=
@@ -52,9 +47,7 @@ map <Nul> <Nop>
 vmap <Nul> <Nop>
 cmap <Nul> <Nop>
 nmap <Nul> <Nop>
-" remap Ctrl-V and add copy/paste from clipboard (need xclip package)
-" e.g.: use Ctrl-Insert<Tab> to insert a real tab
-"imap <C-Insert> <C-v>
+" add copy/paste from clipboard (need xclip package)
 vmap <C-c> y: call system("xclip -i -selection clipboard", getreg("\""))<CR>
 nmap <C-v> :call setreg("\"",system("xclip -o -selection clipboard"))<CR>p
 imap <C-v> <Esc><C-v>a
@@ -62,37 +55,28 @@ imap <C-v> <Esc><C-v>a
 nmap <2-LeftMouse> a
 " toggle button for NERDTree
 map <F2> <Esc>:NERDTreeToggle<CR>
+" remap ctag command
+nmap T <C-]>
+" map F5 to remove trailing spaces
+nnoremap <silent> <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
+" forces (re)indentation of a block of code
+nmap <C-J> vip=
 
-" Indentation, Tabs and Spaces (I use 4 spaces indentation by default).
-""""""""""""""""""""""""""""""
-set expandtab                              " Insert spaces instead of tab
-set tabstop=4                              " Number of spaces for a tab
-set shiftwidth=4                           " Tab size
-set softtabstop=4                          " Makes one backspace go back a full 4 spaces
-autocmd FileType ruby setlocal tabstop=2 shiftwidth=2 softtabstop=2 " 2 spaces for rb files
-autocmd FileType make setlocal noexpandtab " Turn off expandtab for makefiles
-                                           " Use :retab to match the current tab settings
-" Highlight unwanted Tabs and Spaces
-highlight Tab ctermbg=darkgray guibg=darkgray
-highlight Space ctermbg=darkblue guibg=darkblue
-au BufWinEnter * let w:m2=matchadd('Tab', '\t', -1)
-au BufWinEnter * let w:m3=matchadd('Space', '\s\+$\| \+\ze\t', -1)
-set list listchars=tab:»·,trail:·
+" Indentation (I use 4 spaces indentation by default).
+"""""""""""""
+set expandtab         " Insert spaces instead of tab
+set tabstop=4         " Number of spaces for a tab
+set shiftwidth=4      " Tab size
+set softtabstop=4     " Makes one backspace go back a full 4 spaces
+                      " Use :retab to match the current tab settings
 
 " Advanced options
 """"""""""""""""""
 " Customize statusline with RVM and fugitive (thanks to telemachus)
 set ls=2
 set statusline=%<%f\ %h%m%r%y
-\%{exists('g:loaded_rvm')?rvm#statusline_ft_ruby():''}
-\%{exists('g:loaded_fugitive')?fugitive#statusline():''}
-\%=%-14.(%l,%c%V%)\ %P
-
-" Show when a line of a C file exceeds 80 chars
-au FileType c match ErrorMsg '\%>80v.\+'
-
-" Special highlighting for Doxygen
-let g:load_doxygen_syntax=1
+            \%{exists('g:loaded_fugitive')?fugitive#statusline():''}
+            \%=%-14.(%l,%c%V%)\ %P
 
 "set shm=atI                " Disable intro screen
 set lazyredraw             " Don't redraw screen during macros
