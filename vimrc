@@ -58,7 +58,7 @@ map <F2> <Esc>:NERDTreeToggle<CR>
 " map F5 to remove trailing spaces
 nnoremap <silent> <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
 " forces (re)indentation of a block of code
-nmap <C-J> vip=
+nmap <C-i> vip=
 
 " Indentation (I use 4 spaces indentation by default).
 """""""""""""
