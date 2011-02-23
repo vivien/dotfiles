@@ -59,6 +59,8 @@ map <F2> <Esc>:NERDTreeToggle<CR>
 nnoremap <silent> <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
 " forces (re)indentation of a block of code
 nmap <C-i> vip=
+" map Ctrl-Space with completion (Eclipse-like)
+imap <C-@> <C-p>
 
 " Indentation (I use 4 spaces indentation by default).
 """""""""""""
