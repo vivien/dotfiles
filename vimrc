@@ -55,8 +55,6 @@ imap <C-v> <Esc><C-v>a
 nmap <2-LeftMouse> a
 " toggle button for NERDTree
 map <F2> <Esc>:NERDTreeToggle<CR>
-" remap ctag command
-nmap T <C-]>
 " map F5 to remove trailing spaces
 nnoremap <silent> <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
 " forces (re)indentation of a block of code

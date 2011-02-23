@@ -21,9 +21,3 @@ set formatoptions=tcqlron
 set cinoptions=:0,l1,t0,g0
 
 "set foldmethod=syntax
-
-"let $kernel_version=system('uname -r | tr -d "\n"')
-"set tags=./tags,tags,../tags,../../tags,../../../tags,../../../../tags,/lib/modules/$kernel_version/build/tags,/usr/include/tags
-set tags=./tags,tags,../tags,../../tags,../../../tags,../../../../tags
-
-
