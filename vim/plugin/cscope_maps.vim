@@ -98,7 +98,7 @@ if has("cscope")
     nmap <C-\>d :cs find d <C-R>=expand("<cword>")<CR><CR>	
 
     " Personal mapping (Eclipse-like)
-    map <F3> <C-\>s
+    nmap <F3> <C-]>
 
     " Using 'CTRL-spacebar' (intepreted as CTRL-@ by vim) then a search type
     " makes the vim window split horizontally, with search result displayed in
