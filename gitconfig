@@ -7,6 +7,6 @@
 	editor = vim
 [user]
 	name = Vivien Didelot
-	email = vivien.didelot@gmail.com
+	email = vivien.didelot@savoirfairelinux.com
 [diff]
 	external = /home/v0n/bin/diff.py
