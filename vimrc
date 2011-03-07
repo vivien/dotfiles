@@ -90,7 +90,7 @@ set wrap linebreak         " Automatically break lines
 "set pastetoggle=<f2>       " Use <f2> to paste in text from other apps
 set wildmode=full wildmenu " Enable command-line tab completion
 set completeopt=menu       " Don't show extra info on completions
-set wildignore+=*.o,*.obj,*.pyc,*.DS_Store,*.db " Hide irrelevent matches
+set wildignore+=*.o,*.obj,*.ko,*.so,*.mod.c,*.pyc,*.DS_Store,*.db " Hide irrelevent matches
 set ignorecase smartcase   " Only be case sensitive when search has uppercase
 "set nofoldenable           " Disable folding
 "ru macros/matchit.vim      " Enable extended % matching
