@@ -62,7 +62,7 @@ nnoremap <silent> <F4> :TagbarToggle<CR>
 " forces (re)indentation of a block of code
 nmap <C-i> vip=
 " map Ctrl-Space with completion (Eclipse-like)
-imap <C-@> <C-p>
+imap <C-@> <C-n>
 
 " Indentation (I use 4 spaces indentation by default).
 """""""""""""
