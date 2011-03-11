@@ -1,3 +1,0 @@
-#!/bin/bash
-ooimpress -show $NAUTILUS_SCRIPT_SELECTED_FILE_PATHS
-exit 0
