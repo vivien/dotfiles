@@ -4,12 +4,12 @@
 ## Tips: add `todo' at the end of your ~/.bashrc to run it on every shell opening ;)
 
 ## By Vivien DIDELOT aka v0n
-## Last modification: 21 jul 10
+## Last modification: 10 mar 11
 
 set -e
 
 SCRIPT=$(basename $0)
-TODOLIST="$HOME/Ubuntu One/todolist"
+TODOLIST="$HOME/Dropbox/todolist"
 ERROR=65
 
 if [ ! -e "$TODOLIST" ] ; then
