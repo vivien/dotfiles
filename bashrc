@@ -93,6 +93,9 @@ fi # end of 'if [[ -n "$PS1" ]] ; then'
 # Set the EDITOR variable
 export EDITOR='vim'
 
+# Set TERM for 256color support (install ncurses-term is a plus)
+export TERM='gnome-256color'
+
 # Are dotfiles clean?
 dotfiles
 
