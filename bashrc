@@ -99,3 +99,5 @@ export TERM='gnome-256color'
 # Are dotfiles clean?
 dotfiles
 
+# Turn on the Bash vi mode. Mouahahaha!
+set -o vi
