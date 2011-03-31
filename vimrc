@@ -73,6 +73,8 @@ set tabstop=4         " Number of spaces for a tab
 set shiftwidth=4      " Tab size
 set softtabstop=4     " Makes one backspace go back a full 4 spaces
                       " Use :retab to match the current tab settings
+set listchars=tab:»·,trail:·
+set list
 
 " Advanced options
 """"""""""""""""""
