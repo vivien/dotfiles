@@ -37,6 +37,7 @@ au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g
 """""""
 noremap j gj
 noremap k gk
+noremap <Space> <PageDown>
 " switch easily between splits
 map <C-h> <C-w>h<C-w>=
 map <C-l> <C-w>l<C-w>=
