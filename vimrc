@@ -19,6 +19,7 @@ set titlestring=%f title   " Display filename in terminal window
 set mouse=nvch             " Enable mouse support, unless in insert mode
 set enc=utf-8              " Enable unicode support
 set wmh=0                  " Sets the minimum window height to 0
+set modeline               " Allow vim config in comments
 
 " Theme
 """""""
