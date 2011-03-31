@@ -13,3 +13,4 @@ alias :x='exit'
 alias git-svn-pull='git svn rebase'
 alias git-svn-push='git svn rebase && git svn dcommit'
 
+alias sup='cd ~/Projects/sup && RUBY_INVOCATION="ruby -Ilib" ruby -Ilib bin/sup && cd -'
