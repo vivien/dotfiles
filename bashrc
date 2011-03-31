@@ -5,6 +5,9 @@
 # If not running interactively, don't do anything
 if [[ -n "$PS1" ]] ; then
 
+    # ignore ls, bg, fg, exit commands
+    export HISTIGNORE="ls:[bf]g:exit"
+
     # don't put duplicate lines in the history. See bash(1) for more options
     # don't overwrite GNU Midnight Commander's setting of `ignorespace'.
     HISTCONTROL=$HISTCONTROL${HISTCONTROL+,}ignoredups
