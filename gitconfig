@@ -8,3 +8,7 @@
 [user]
 	name = Vivien Didelot
 	email = vivien.didelot@savoirfairelinux.com
+[sendemail]
+    smtpserver = /usr/bin/msmtp
+    suppresscc = self
+	multiedit = false
