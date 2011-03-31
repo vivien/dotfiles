@@ -24,7 +24,7 @@ set modeline               " Allow vim config in comments
 " Theme
 """""""
 set background=dark
-colorscheme wuye
+colorscheme wombat
 
 " Cursor
 """"""""

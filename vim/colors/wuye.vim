@@ -25,6 +25,7 @@ hi Search	gui=BOLD guifg=#FF0000 guibg=BG		cterm=BOLD ctermfg=red ctermbg=black
 hi IncSearch	gui=BOLD,REVERSE guifg=NONE guibg=#FF0000 cterm=BOLD ctermfg=red ctermbg=white
 hi MoreMsg	gui=BOLD guifg=#00FF7F guibg=BG		cterm=BOLD ctermfg=darkcyan ctermbg=black
 hi ModeMsg	gui=NONE guifg=#7CFC00 guibg=#00688B	cterm=NONE ctermfg=yellow ctermbg=darkcyan
+hi TypoMsg	gui=NONE guifg=#F0E68C guibg=#FF00FF	cterm=NONE ctermfg=yellow ctermbg=lightmagenta
 hi LineNr	gui=UNDERLINE guifg=#607B8B guibg=#121212	cterm=UNDERLINE ctermfg=darkgrey ctermbg=black
 hi Question	gui=BOLD guifg=#00FF00 guibg=BG		cterm=BOLD ctermfg=green ctermbg=black
 hi StatusLine	gui=NONE guifg=#FFFFFF guibg=#203080	cterm=NONE ctermfg=white ctermbg=darkblue
@@ -46,10 +47,12 @@ hi CursorLine	gui=NONE guifg=NONE guibg=#001220
 hi CursorColumn	gui=NONE guifg=NONE guibg=#001630
 
 """"""\ Syntax highlighting groups \""""""
-hi Normal	gui=NONE guifg=#E6E6FA guibg=black	cterm=NONE ctermfg=white ctermbg=black
+"hi Normal	gui=NONE guifg=#E6E6FA guibg=black	cterm=NONE ctermfg=white ctermbg=black
+hi Normal	gui=NONE guifg=#E6E6FA guibg=BG	cterm=NONE ctermfg=NONE ctermbg=black
 hi Comment	gui=NONE guifg=#4A708B guibg=BG		cterm=NONE ctermfg=darkgray ctermbg=black
 hi Constant	gui=NONE guifg=#87CEEB guibg=BG		cterm=NONE ctermfg=darkcyan ctermbg=black
-  hi String	gui=NONE guifg=#A4D3EE guibg=BG		cterm=NONE ctermfg=darkcyan ctermbg=black
+  "hi String	gui=NONE guifg=#A4D3EE guibg=BG		cterm=NONE ctermfg=darkcyan ctermbg=black
+  hi String	gui=NONE guifg=#A4D3EE guibg=BG		cterm=NONE ctermfg=darkgreen ctermbg=black
   hi Character	gui=NONE guifg=#87CEEB guibg=BG		cterm=NONE ctermfg=darkcyan ctermbg=black
   hi Number	gui=NONE guifg=#7FFFD4 guibg=BG		cterm=NONE ctermfg=darkcyan ctermbg=black
   hi Boolean	gui=BOLD guifg=#A4D3EE guibg=BG		cterm=NONE ctermfg=darkcyan ctermbg=black
