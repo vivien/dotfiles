@@ -49,10 +49,6 @@ for FILE in * ; do
   case $FILE in
     $0|README.markdown)
       ;; # ignore
-    terminator.config)
-      LINK=$HOME/.config/terminator/config
-      Deploy $SRC $LINK
-      ;;
     bin)
       LINK=$HOME/$FILE
       Deploy $SRC $LINK
