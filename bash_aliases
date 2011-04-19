@@ -4,7 +4,6 @@ alias g='xdg-open http://google.com'
 alias t='google-translate'
 
 alias vimo='vim -O'
-alias vim='vim -O'
 alias :q='exit'
 alias :wq='exit'
 alias :x='exit'
