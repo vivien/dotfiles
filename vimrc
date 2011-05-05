@@ -66,6 +66,8 @@ nnoremap <silent> <F4> :TagbarToggle<CR>
 nmap <C-i> vip=
 " map Ctrl-Space with completion (Eclipse-like)
 imap <C-@> <C-n>
+map <C-Tab> gt
+map <C-S-Tab> gT
 
 " Indentation (I use 4 spaces indentation by default).
 """""""""""""
@@ -99,4 +101,3 @@ set wildignore+=*.o,*.obj,*.ko,*.so,*.mod.c,*.pyc,*.DS_Store,*.db " Hide irrelev
 set ignorecase smartcase   " Only be case sensitive when search has uppercase
 "set nofoldenable           " Disable folding
 "ru macros/matchit.vim      " Enable extended % matching
-
