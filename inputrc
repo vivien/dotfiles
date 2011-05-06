@@ -1,8 +1,8 @@
 # do not bell on tab-completion.
-set bell-style none
+#set bell-style none
 
 # Show all if ambigious.
-set show-all-if-ambiguous on
+#set show-all-if-ambiguous on
 
 # Bind history search on Up and Down keys.
 "\e[A": history-search-backward
