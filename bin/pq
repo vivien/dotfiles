@@ -1,5 +1,6 @@
 #!/bin/bash
 
-cowsay -f `ls -1 /usr/share/cowsay/cows/* | sort --random-sort | head -1` "$1" | toilet --gay -f term
+#cowsay -f `ls -1 /usr/share/cowsay/cows/* | sort --random-sort | head -1` "$1" | toilet --gay -f term
+cowsay -f `locate .cow | sort --random-sort | head -1` "$@"
 
 exit
